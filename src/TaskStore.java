@@ -1,3 +1,5 @@
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashMap;
 
 public class TaskStore {
@@ -10,11 +12,15 @@ public class TaskStore {
          return tasksList.get(taskId);
     }
 
-    public void saveTask(int taskId, Task task) {
-        tasksList.put(taskId, task);
+    public void saveTask(Task task) {
+        tasksList.put(task.getIdentificationNumber(), task);
     }
 
     public void removeTask(int taskId) {
         tasksList.remove(taskId);
+    }
+
+    public Collection<Task> getAllTasks() {
+        return tasksList.values();
     }
 }

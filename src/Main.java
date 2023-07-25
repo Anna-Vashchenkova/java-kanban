@@ -4,6 +4,7 @@ public class Main {
         System.out.println("Поехали!");
 
         Menu menu = new Menu();
-        menu.printMenu();
+        menu.getTaskManager();
+
     }
 }

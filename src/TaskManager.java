@@ -1,11 +1,12 @@
-import java.util.HashMap;
+import java.util.Collection;
 
 public class TaskManager {
-    Task task;
     TaskStore taskStore = new TaskStore();
+    int lastId = 0;
 
-    public void addTask() {
-
+    public void addTask(String title, String description, int identificationNumber) {
+        Task task = new Task(title, description, identificationNumber);
+        taskStore.saveTask(task);
     }
 
     public void removeTask(int taskId) {
@@ -19,12 +20,20 @@ public class TaskManager {
              return;
          }
          task.setStatus(status);
-         taskStore.saveTask(taskId, task);
+         taskStore.saveTask(task);
     }
 
+    public void printTaskList() {
+        Collection<Task> taskList = taskStore.getAllTasks();
+        for (Task task1 : taskList) {
+            System.out.println(task1);
+        }
+    }
 
-
-    //метод генерации номера задачи
+    public int generateIdNumber() {
+        lastId++;
+        return lastId;
+    }
 
     /*
     1 Возможность хранить задачи всех типов. Для этого вам нужно выбрать подходящую коллекцию.

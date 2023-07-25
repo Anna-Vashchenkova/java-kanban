@@ -1,36 +1,31 @@
 import java.util.Scanner;
 
 public class Menu {
+    TaskManager taskManager = new TaskManager();
+
     public void printMenu() {
         System.out.println("Что вы хотите сделать? Выбирете команду: ");
         System.out.println("1 - добавить задачу.");
         System.out.println("2 - изменить статус задачи.");
         System.out.println("3 - удалить задачу.");
+        System.out.println("4 - показать список задач.");
         System.out.println("0 - выход.");
-
-        getTaskManager();
     }
     
     public void getTaskManager() {
         while (true) {
+            printMenu();
             Scanner scanner = new Scanner(System.in);
-            TaskManager taskManager = new TaskManager();
-            int command = scanner.nextInt();
+            String commandString = scanner.nextLine();
+            int command = Integer.parseInt(commandString);
             if (command == 1) {
-                taskManager.addTask();
+                createTask(scanner, taskManager);
             } else  if (command == 2) {
-                System.out.println("Введите данные о статусе задачи: 1 = NEW, 2 = IN_PROGRESS, 3 = DONE");
-                int statusCommand = scanner.nextInt();
-                int taskId = scanner.nextInt();
-                TaskStatus status = getStatus(statusCommand);
-                taskManager.setStatus(taskId, status);
-                if (taskManager == null) {
-                    System.out.println("Вы ввели неверное значение. Введите число от 1 до 3.");
-                }
+                changeStatus(scanner, taskManager);
             } else  if (command == 3) {
-                System.out.println("Введите номер идентификатора задачи: ");
-                int taskId = scanner.nextInt();
-                taskManager.removeTask(taskId);
+                removeTask(scanner, taskManager);
+            } else  if (command == 4) {
+                taskManager.printTaskList();
             } else if (command == 0) {
                 System.out.println("Выход");
                 scanner.close();
@@ -41,7 +36,36 @@ public class Menu {
         }
     }
 
-    public TaskStatus getStatus(int command) {
+    private void removeTask(Scanner scanner, TaskManager taskManager) {
+        System.out.println("Введите номер идентификатора задачи: ");
+        String taskIdString = scanner.nextLine();
+        int taskId = Integer.parseInt(taskIdString);
+        taskManager.removeTask(taskId);
+        System.out.println("Задача с идентификатором " + taskId + " успешно удалена.");
+    }
+
+    private void changeStatus(Scanner scanner, TaskManager taskManager) {
+        System.out.println("Введите номер идентификатора задачи: ");
+        String taskIdString = scanner.nextLine();
+        int taskId = Integer.parseInt(taskIdString);
+        System.out.println("Введите данные о статусе задачи: NEW, IN_PROGRESS, DONE");
+        String statusCommand = scanner.nextLine();
+        TaskStatus status = TaskStatus.valueOf(statusCommand);
+        taskManager.setStatus(taskId, status);
+        System.out.println("Статус задачи " + taskId + " успешно изменён на " + status);
+    }
+
+    private void createTask(Scanner scanner, TaskManager taskManager) {
+        System.out.println("Введите название задачи.");
+        String title = scanner.nextLine();
+        System.out.println("Введите описание задачи.");
+        String description = scanner.nextLine();
+        int identificationNumber = taskManager.generateIdNumber();
+        taskManager.addTask(title, description, identificationNumber);
+        System.out.println("Задача " + title + " успешно добавлена. Её номер - " + identificationNumber);
+    }
+
+    /*public TaskStatus getStatus(int command) {
         TaskStatus taskStatus;
         switch (command) {
             case 1:
@@ -54,5 +78,5 @@ public class Menu {
                 System.out.println("Такой команды нет.");
                 return  null;
         }
-    }
+    }*/
 }

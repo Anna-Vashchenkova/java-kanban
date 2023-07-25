@@ -9,7 +9,7 @@ public class Task {
         this.title = title;
         this.description = description;
         this.identificationNumber = identificationNumber;
-        TaskStatus status = TaskStatus.NEW;
+        status = TaskStatus.NEW;
     }
 
     public TaskType getTaskType() {
@@ -48,4 +48,14 @@ public class Task {
         this.status = status;
     }
 
+    @Override
+    public String toString() {
+        return "Task{" +
+                "taskType=" + taskType +
+                ", title='" + title + '\'' +
+                ", description='" + description + '\'' +
+                ", identificationNumber=" + identificationNumber +
+                ", status=" + status +
+                '}';
+    }
 }
