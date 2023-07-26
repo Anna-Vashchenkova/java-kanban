@@ -1,3 +1,4 @@
+import java.util.ArrayList;
 import java.util.Scanner;
 
 public class Menu {
@@ -22,7 +23,7 @@ public class Menu {
             int command = Integer.parseInt(commandString);
             switch (command) {
                 case 1:
-                    createTask(scanner);
+                    addTask(scanner);
                     break;
                 case 2:
                     changeStatus(scanner);
@@ -49,15 +50,59 @@ public class Menu {
         }
     }
 
-    private void createTask(Scanner scanner) {
+    private void addTask(Scanner scanner) {
+        System.out.println("Укажите тип задачи: 1 - TASK, 2 - EPIC, 3 - SUBTASK.");
+        String taskTypeStr = scanner.nextLine();
+        int taskType = Integer.parseInt(taskTypeStr);
+        Task task;
+        switch (taskType) {
+            case 1:
+                task = createTask(scanner);
+                break;
+            case 2:
+                task = createEpic(scanner);
+                break;
+            case 3:
+                task = createSubTask(scanner);
+                break;
+            default:
+                System.out.println("Введенный тип указан не верно.");
+                return;
+        }
+        taskManager.addTask(task);
+    }
+
+    private Task createTask(Scanner scanner) {
         System.out.println("Введите название задачи.");
         String title = scanner.nextLine();
         System.out.println("Введите описание задачи.");
         String description = scanner.nextLine();
         int identificationNumber = taskManager.generateIdNumber();
         Task task = new Task(title, description, identificationNumber);
-        taskManager.addTask(task);
-        System.out.println("Задача " + title + " успешно добавлена. Её номер - " + identificationNumber);
+        return task;
+    }
+
+    private Epic createEpic(Scanner scanner) {
+        System.out.println("Введите название эпика.");
+        String title = scanner.nextLine();
+        System.out.println("Введите описание эпика.");
+        String description = scanner.nextLine();
+        int identificationNumber = taskManager.generateIdNumber();
+        Epic epic = new Epic (title, description, identificationNumber, new ArrayList<>());
+        return epic;
+    }
+
+    private SubTask createSubTask(Scanner scanner) {
+        System.out.println("Введите название подзадачи.");
+        String title = scanner.nextLine();
+        System.out.println("Введите описание подзадачи.");
+        String description = scanner.nextLine();
+        System.out.println("Укажите номер эпика.");
+        String epicIdStr = scanner.nextLine();
+        int epicId = Integer.parseInt(epicIdStr);
+        int identificationNumber = taskManager.generateIdNumber();
+        SubTask subTask = new SubTask(title, description, identificationNumber, epicId);
+        return subTask;
     }
 
     private void removeTask(Scanner scanner) {

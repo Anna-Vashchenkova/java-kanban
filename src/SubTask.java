@@ -1,13 +1,28 @@
 import java.util.Objects;
 
 public class SubTask extends Task {
-    protected final TaskType taskType = TaskType.SUB_TASK;
     private int parentEpicId = 0;
 
-    public SubTask(String title, String description, int identificationNumber, Epic epic) {
+    public SubTask(String title, String description, int identificationNumber, int parentEpicId ) {
         super(title, description, identificationNumber);
-        this.parentEpicId = epic.getIdentificationNumber();
+        this.parentEpicId =parentEpicId;
+        taskType = TaskType.SUB_TASK;
+    }
 
+    public int getParentEpicId() {
+        return parentEpicId;
+    }
+
+    @Override
+    public String toString() {
+        return "SubTask{" +
+                "parentEpicId=" + parentEpicId +
+                ", taskType=" + taskType +
+                ", title='" + title + '\'' +
+                ", description='" + description + '\'' +
+                ", identificationNumber=" + identificationNumber +
+                ", status=" + status +
+                '}';
     }
 
     @Override

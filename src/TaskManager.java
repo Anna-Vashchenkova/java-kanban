@@ -5,7 +5,21 @@ public class TaskManager {
     int lastId = 0;
 
     public void addTask(Task task) {
-        taskStore.saveTask(task);
+        switch (task.getTaskType()) {
+            case SUB_TASK:
+                SubTask st = (SubTask) task;
+                Task taskById = taskStore.getTaskById(st.getParentEpicId());
+                if ((taskById == null)||(taskById.getTaskType() != TaskType.EPIC)) {
+                    System.out.println("Эпика с таким номером нет.");
+                    return;
+                }
+                ((Epic)taskById).addSubTask(st);
+                taskStore.saveTask(taskById);
+            case EPIC:
+            case TASK:
+                taskStore.saveTask(task);
+                System.out.println("Задача " + task.getTitle() + " успешно добавлена. Её номер - " + task.getIdentificationNumber());
+        }
     }
 
 

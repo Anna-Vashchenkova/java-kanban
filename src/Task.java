@@ -1,15 +1,16 @@
 public class Task {
-    protected final TaskType taskType = TaskType.TASK;
-    private String title;
-    private String description;
-    private int identificationNumber;
-    private TaskStatus status;
+    protected TaskType taskType ;
+    protected String title;
+    protected String description;
+    protected int identificationNumber;
+    protected TaskStatus status;
 
     public Task(String title, String description, int identificationNumber) {
         this.title = title;
         this.description = description;
         this.identificationNumber = identificationNumber;
         status = TaskStatus.NEW;
+        taskType = TaskType.TASK;
     }
 
     public TaskType getTaskType() {
