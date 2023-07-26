@@ -4,9 +4,14 @@ public class TaskManager {
     TaskStore taskStore = new TaskStore();
     int lastId = 0;
 
-    public void addTask(String title, String description, int identificationNumber) {
-        Task task = new Task(title, description, identificationNumber);
+    public void addTask(Task task) {
         taskStore.saveTask(task);
+    }
+
+
+    public Task getTaskById(int taskId) {
+        Task task = taskStore.getTaskById(taskId);
+        return task;
     }
 
     public void removeTask(int taskId) {
@@ -35,16 +40,16 @@ public class TaskManager {
         return lastId;
     }
 
+    public void removeAll() {
+        taskStore.removeAllTask();
+    }
+
+    public void updateTask(Task task) {
+        taskStore.saveTask(task);
+    }
+
     /*
-    1 Возможность хранить задачи всех типов. Для этого вам нужно выбрать подходящую коллекцию.
-    2 Методы для каждого из типа задач(Задача/Эпик/Подзадача):
-    Получение списка всех задач.
-    Удаление всех задач.
-    Получение по идентификатору.
-    Создание. Сам объект должен передаваться в качестве параметра.
-    Обновление. Новая версия объекта с верным идентификатором передаётся в виде параметра.
-        tasks.put(task.getId(), task))
-    Удаление по идентификатору.
+
     3 Дополнительные методы:
     3/1 Получение списка всех подзадач определённого эпика.
     4/ Управление статусами осуществляется по следующему правилу:

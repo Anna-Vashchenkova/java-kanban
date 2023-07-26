@@ -3,8 +3,6 @@ import java.util.Collection;
 import java.util.HashMap;
 
 public class TaskStore {
-    /*1. Получать задачи по идентификатору.
-    2. Выводить списки задач разных типов.*/
 
     HashMap<Integer, Task> tasksList = new HashMap<>();
 
@@ -22,5 +20,9 @@ public class TaskStore {
 
     public Collection<Task> getAllTasks() {
         return tasksList.values();
+    }
+
+    public void removeAllTask() {
+        tasksList.clear();
     }
 }
