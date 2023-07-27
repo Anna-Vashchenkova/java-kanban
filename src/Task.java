@@ -37,10 +37,6 @@ public class Task {
         return identificationNumber;
     }
 
-    public void setIdentificationNumber(int identificationNumber) {
-        this.identificationNumber = identificationNumber;
-    }
-
     public TaskStatus getStatus() {
         return status;
     }

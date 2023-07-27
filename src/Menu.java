@@ -12,6 +12,7 @@ public class Menu {
         System.out.println("4 - показать список задач.");
         System.out.println("5 - удалить все задачи.");
         System.out.println("6 - обновить задачу.");
+        System.out.println("7 - показать список всех подзадач для эпика.");
         System.out.println("0 - выход.");
     }
 
@@ -32,13 +33,16 @@ public class Menu {
                     removeTask(scanner);
                     break;
                 case 4:
-                    taskManager.printTaskList();
+                    printTasks(scanner);
                     break;
                 case 5:
-                    taskManager.removeAll();
+                    removeAllTasks(scanner);
                     break;
                 case 6:
                     updateTask(scanner);
+                    break;
+                case 7:
+                    printSubTasks(scanner);
                     break;
                 case 0:
                     System.out.println("Выход");
@@ -51,9 +55,7 @@ public class Menu {
     }
 
     private void addTask(Scanner scanner) {
-        System.out.println("Укажите тип задачи: 1 - TASK, 2 - EPIC, 3 - SUBTASK.");
-        String taskTypeStr = scanner.nextLine();
-        int taskType = Integer.parseInt(taskTypeStr);
+        int taskType = readIntFromScanner(scanner, "Укажите тип задачи: 1 - TASK, 2 - EPIC, 3 - SUBTASK.");
         Task task;
         switch (taskType) {
             case 1:
@@ -97,38 +99,89 @@ public class Menu {
         String title = scanner.nextLine();
         System.out.println("Введите описание подзадачи.");
         String description = scanner.nextLine();
-        System.out.println("Укажите номер эпика.");
-        String epicIdStr = scanner.nextLine();
-        int epicId = Integer.parseInt(epicIdStr);
+        int epicId = readIntFromScanner(scanner, "Укажите номер эпика.");
         int identificationNumber = taskManager.generateIdNumber();
         SubTask subTask = new SubTask(title, description, identificationNumber, epicId);
         return subTask;
     }
 
-    private void removeTask(Scanner scanner) {
-        System.out.println("Введите номер идентификатора задачи: ");
-        String taskIdString = scanner.nextLine();
-        int taskId = Integer.parseInt(taskIdString);
-        taskManager.removeTask(taskId);
-        System.out.println("Задача с идентификатором " + taskId + " успешно удалена.");
-    }
-
     private void changeStatus(Scanner scanner) {
-        System.out.println("Введите номер идентификатора задачи: ");
-        String taskIdString = scanner.nextLine();
-        int taskId = Integer.parseInt(taskIdString);
+        int taskId = readIntFromScanner(scanner, "Введите номер идентификатора задачи: ");
         System.out.println("Введите данные о статусе задачи: NEW, IN_PROGRESS, DONE");
         String statusCommand = scanner.nextLine();
         TaskStatus status = TaskStatus.valueOf(statusCommand);
         taskManager.setStatus(taskId, status);
-        System.out.println("Статус задачи " + taskId + " успешно изменён на " + status);
+    }
+
+    private int readIntFromScanner(Scanner scanner, String s) {
+        System.out.println(s);
+        String taskIdString = scanner.nextLine();
+        return Integer.parseInt(taskIdString);
+    }
+
+    private void removeTask(Scanner scanner) {
+        int taskId = readIntFromScanner(scanner, "Введите номер идентификатора задачи: ");
+        if (taskManager.getTaskById(taskId) == null) {
+            System.out.println("Задача не найдена.");
+            return;
+        }
+        taskManager.removeTask(taskId);
+        System.out.println("Задача с идентификатором " + taskId + " успешно удалена.");
+    }
+
+    private void printTasks(Scanner scanner) {
+        TaskType taskType = getTaskType(scanner);
+        if (taskType == null) return;
+        taskManager.printTaskList(taskType);
+    }
+
+    private TaskType getTaskType(Scanner scanner) {
+        TaskType taskType;
+        int taskTypeNumber = readIntFromScanner(scanner, "Укажите тип задачи: 1 - TASK, 2 - EPIC, 3 - SUBTASK.");
+        switch (taskTypeNumber) {
+            case 1:
+                taskType = TaskType.TASK;
+                break;
+            case 2:
+                taskType = TaskType.EPIC;
+                break;
+            case 3:
+                taskType = TaskType.SUB_TASK;
+                break;
+            default:
+                System.out.println("Введенный тип указан не верно.");
+                taskType = null;
+        }
+        return taskType;
+    }
+
+    private void removeAllTasks(Scanner scanner) {
+        int taskTypeNumber = readIntFromScanner(scanner, "Укажите тип задач: 1 - TASK, 2 - EPIC, 3 - SUBTASK.");
+        TaskType taskType;
+        switch (taskTypeNumber) {
+            case 1:
+                taskType = TaskType.TASK;
+                break;
+            case 2:
+                taskType = TaskType.EPIC;
+                break;
+            case 3:
+                taskType = TaskType.SUB_TASK;
+                break;
+            default:
+                System.out.println("Введенный тип указан не верно.");
+                return;
+        }
+        System.out.println("Удалено задач: " + taskManager.removeAllTasksByType(taskType));
     }
 
     private void updateTask(Scanner scanner) {
-        System.out.println("Введите номер идентификатора задачи:");
-        String taskIdString = scanner.nextLine();
-        int taskId = Integer.parseInt(taskIdString);
+        int taskId = readIntFromScanner(scanner, "Введите номер идентификатора задачи:");
         Task task = taskManager.getTaskById(taskId);
+        if (task == null) {
+            System.out.println("Задача не найдена.");
+            return;
+        }
         System.out.println("Укажите новое название. Текущее значение = " + task.getTitle());
         if (scanner.hasNextLine()) {
             String newTitle = scanner.nextLine();
@@ -146,4 +199,8 @@ public class Menu {
         taskManager.updateTask(task);
     }
 
+    private void printSubTasks(Scanner scanner) {
+        int epicId = readIntFromScanner(scanner, "Введите номер эпика:");
+        taskManager.printSubTasks(epicId);
+    }
 }

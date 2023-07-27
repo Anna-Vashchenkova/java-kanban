@@ -32,9 +32,4 @@ public class SubTask extends Task {
         SubTask subTask = (SubTask) o;
         return parentEpicId == subTask.parentEpicId && taskType == subTask.taskType;
     }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(taskType, parentEpicId);
-    }
 }

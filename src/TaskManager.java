@@ -1,3 +1,4 @@
+import java.util.ArrayList;
 import java.util.Collection;
 
 public class TaskManager {
@@ -18,7 +19,8 @@ public class TaskManager {
             case EPIC:
             case TASK:
                 taskStore.saveTask(task);
-                System.out.println("Задача " + task.getTitle() + " успешно добавлена. Её номер - " + task.getIdentificationNumber());
+                System.out.println("Задача " + task.getTitle() + " успешно добавлена. Её номер - "
+                        + task.getIdentificationNumber());
         }
     }
 
@@ -38,14 +40,63 @@ public class TaskManager {
              System.out.println("Задачи с таким идентификатором нет.");
              return;
          }
-         task.setStatus(status);
-         taskStore.saveTask(task);
+         if (task.getTaskType() == TaskType.EPIC) {
+             System.out.println("Невозможно изменить статус эпика.");
+             return;
+         } else  if (task.getTaskType() == TaskType.TASK) {
+             task.setStatus(status);
+             taskStore.saveTask(task);
+             System.out.println("Статус задачи " + taskId + " успешно изменён на " + status);
+         } else if (task.getTaskType() == TaskType.SUB_TASK) {
+             task.setStatus(status);
+             taskStore.saveTask(task);
+             System.out.println("Статус подзадачи " + taskId + " успешно изменён на " + status);
+             SubTask st = (SubTask) task;
+             changeEpicStatus(st.getParentEpicId());
+         }
     }
 
-    public void printTaskList() {
-        Collection<Task> taskList = taskStore.getAllTasks();
-        for (Task task1 : taskList) {
-            System.out.println(task1);
+    private void changeEpicStatus(int epicId) {
+        int newCount = 0;
+        int doneCount = 0;
+        Task taskById = getTaskById(epicId);
+        if ((taskById == null) || (taskById.getTaskType() != TaskType.EPIC)) {
+            System.out.println("Эпика с таким номером нет.");
+            return;
+        }
+        ArrayList<SubTask> subTasksList = ((Epic)taskById).getListOfSubTasks();
+        if (subTasksList.isEmpty()) {
+            System.out.println("Задачи не найдены.");
+        } else {
+            for (SubTask subTask : subTasksList) {
+                if (subTask.getStatus() == TaskStatus.NEW) {
+                    newCount++;
+                } else  if (subTask.getStatus() == TaskStatus.DONE) {
+                    doneCount++;
+                }
+            }
+            if (newCount == subTasksList.size()) {
+                taskById.setStatus(TaskStatus.NEW);
+                System.out.println("Статус эпика " + epicId + " успешно изменён на " + taskById.getTaskType());
+            }
+            if (doneCount == subTasksList.size()) {
+                taskById.setStatus(TaskStatus.DONE);
+                System.out.println("Статус эпика " + epicId + " успешно изменён на " + taskById.getTaskType());
+            } else {
+                taskById.setStatus(TaskStatus.IN_PROGRESS);
+                System.out.println("Статус эпика " + epicId + " успешно изменён на " + taskById.getTaskType());
+            }
+        }
+    }
+
+    public void printTaskList(TaskType taskType) {
+        Collection<Task> taskList = taskStore.getAllTasksByType(taskType);
+        if (taskList.isEmpty()) {
+            System.out.println("Задачи не найдены.");
+        } else {
+            for (Task task1 : taskList) {
+                System.out.println(task1);
+            }
         }
     }
 
@@ -54,23 +105,32 @@ public class TaskManager {
         return lastId;
     }
 
-    public void removeAll() {
-        taskStore.removeAllTask();
+    public int removeAllTasksByType(TaskType taskType) {
+        int count = 0;
+        for (Task task : taskStore.getAllTasksByType(taskType)) {
+            taskStore.removeTask(task.getIdentificationNumber());
+            count++;
+        }
+        return  count;
     }
 
     public void updateTask(Task task) {
         taskStore.saveTask(task);
     }
 
-    /*
-
-    3 Дополнительные методы:
-    3/1 Получение списка всех подзадач определённого эпика.
-    4/ Управление статусами осуществляется по следующему правилу:
-    4/1 Менеджер сам не выбирает статус для задачи. Информация о нём приходит менеджеру вместе с информацией
-        о самой задаче. По этим данным в одних случаях он будет сохранять статус, в других будет рассчитывать.
-    4/2 Для эпиков:
-    если у эпика нет подзадач или все они имеют статус NEW, то статус должен быть NEW.
-    если все подзадачи имеют статус DONE, то и эпик считается завершённым — со статусом DONE.
-    во всех остальных случаях статус должен быть IN_PROGRESS.*/
+    public void printSubTasks(int epicId) {
+        Task taskById = getTaskById(epicId);
+        if ((taskById == null) || (taskById.getTaskType() != TaskType.EPIC)) {
+            System.out.println("Эпика с таким номером нет.");
+            return;
+        }
+        ArrayList<SubTask> subTasksList = ((Epic)taskById).getListOfSubTasks();
+        if (subTasksList.isEmpty()) {
+            System.out.println("Задачи не найдены.");
+        } else {
+            for (SubTask subTask : subTasksList) {
+                System.out.println(subTask);
+            }
+        }
+    }
 }

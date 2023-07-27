@@ -18,11 +18,13 @@ public class TaskStore {
         tasksList.remove(taskId);
     }
 
-    public Collection<Task> getAllTasks() {
-        return tasksList.values();
-    }
-
-    public void removeAllTask() {
-        tasksList.clear();
+    public Collection<Task> getAllTasksByType(TaskType taskType) {
+        ArrayList<Task> result = new ArrayList<>();
+        for (Task value : tasksList.values()) {
+            if (taskType == value.getTaskType()) {
+                result.add(value);
+            }
+        }
+         return result;
     }
 }
