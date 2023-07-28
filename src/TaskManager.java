@@ -42,7 +42,6 @@ public class TaskManager {
          }
          if (task.getTaskType() == TaskType.EPIC) {
              System.out.println("Невозможно изменить статус эпика.");
-             return;
          } else  if (task.getTaskType() == TaskType.TASK) {
              task.setStatus(status);
              taskStore.saveTask(task);
@@ -64,7 +63,7 @@ public class TaskManager {
             System.out.println("Эпика с таким номером нет.");
             return;
         }
-        ArrayList<SubTask> subTasksList = ((Epic)taskById).getListOfSubTasks();
+        ArrayList<SubTask> subTasksList = ((Epic)taskById).getSubTasks();
         if (subTasksList.isEmpty()) {
             System.out.println("Задачи не найдены.");
         } else {
@@ -124,7 +123,7 @@ public class TaskManager {
             System.out.println("Эпика с таким номером нет.");
             return;
         }
-        ArrayList<SubTask> subTasksList = ((Epic)taskById).getListOfSubTasks();
+        ArrayList<SubTask> subTasksList = ((Epic)taskById).getSubTasks();
         if (subTasksList.isEmpty()) {
             System.out.println("Задачи не найдены.");
         } else {

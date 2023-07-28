@@ -29,7 +29,14 @@ public class SubTask extends Task {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
+
         SubTask subTask = (SubTask) o;
-        return parentEpicId == subTask.parentEpicId && taskType == subTask.taskType;
+
+        return parentEpicId == subTask.parentEpicId;
+    }
+
+    @Override
+    public int hashCode() {
+        return parentEpicId;
     }
 }
