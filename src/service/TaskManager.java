@@ -1,4 +1,4 @@
-package logic;
+package service;
 
 import model.*;
 import store.TaskStore;

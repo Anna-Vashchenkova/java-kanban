@@ -58,4 +58,28 @@ public class Task {
                 ", status=" + status +
                 '}';
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Task task = (Task) o;
+
+        if (identificationNumber != task.identificationNumber) return false;
+        if (taskType != task.taskType) return false;
+        if (!title.equals(task.title)) return false;
+        if (!description.equals(task.description)) return false;
+        return status == task.status;
+    }
+
+    @Override
+    public int hashCode() {
+        int result = taskType.hashCode();
+        result = 31 * result + title.hashCode();
+        result = 31 * result + description.hashCode();
+        result = 31 * result + identificationNumber;
+        result = 31 * result + status.hashCode();
+        return result;
+    }
 }

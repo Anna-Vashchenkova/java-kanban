@@ -1,4 +1,4 @@
-import logic.TaskManager;
+import service.TaskManager;
 import model.SubTask;
 import model.Task;
 import model.Epic;
