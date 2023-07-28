@@ -1,3 +1,8 @@
+package store;
+
+import model.Task;
+import model.TaskType;
+
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;

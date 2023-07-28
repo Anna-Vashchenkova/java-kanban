@@ -1,3 +1,8 @@
+package logic;
+
+import model.*;
+import store.TaskStore;
+
 import java.util.ArrayList;
 import java.util.Collection;
 

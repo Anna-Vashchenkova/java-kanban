@@ -1,3 +1,10 @@
+import logic.TaskManager;
+import model.SubTask;
+import model.Task;
+import model.Epic;
+import model.TaskType;
+import model.TaskStatus;
+
 import java.util.ArrayList;
 import java.util.Scanner;
 
@@ -90,7 +97,7 @@ public class Menu {
         System.out.println("Введите описание эпика.");
         String description = scanner.nextLine();
         int identificationNumber = taskManager.generateIdNumber();
-        Epic epic = new Epic (title, description, identificationNumber, new ArrayList<>());
+        Epic epic = new Epic(title, description, identificationNumber, new ArrayList<>());
         return epic;
     }
 

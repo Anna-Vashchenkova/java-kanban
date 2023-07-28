@@ -1,4 +1,4 @@
-import java.util.Objects;
+package model;
 
 public class SubTask extends Task {
     private int parentEpicId = 0;
@@ -15,7 +15,7 @@ public class SubTask extends Task {
 
     @Override
     public String toString() {
-        return "SubTask{" +
+        return "Task.SubTask{" +
                 "parentEpicId=" + parentEpicId +
                 ", taskType=" + taskType +
                 ", title='" + title + '\'' +
