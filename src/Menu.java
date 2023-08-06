@@ -4,12 +4,14 @@ import model.Task;
 import model.Epic;
 import model.TaskType;
 import model.TaskStatus;
+import service.Managers;
+import service.TaskManager;
 
 import java.util.ArrayList;
 import java.util.Scanner;
 
 public class Menu {
-    InMemoryTaskManager taskManager = new InMemoryTaskManager();
+    TaskManager taskManager = Managers.getDefault();
 
     public void printMenu() {
         System.out.println("Что вы хотите сделать? Выбирете команду: ");
@@ -20,6 +22,7 @@ public class Menu {
         System.out.println("5 - удалить все задачи.");
         System.out.println("6 - обновить задачу.");
         System.out.println("7 - показать список всех подзадач для эпика.");
+        System.out.println("8 - показать историю просмотров задач.");
         System.out.println("0 - выход.");
     }
 
@@ -50,6 +53,9 @@ public class Menu {
                     break;
                 case 7:
                     printSubTasks(scanner);
+                    break;
+                case 8:
+                    taskManager.getHistory();
                     break;
                 case 0:
                     System.out.println("Выход");

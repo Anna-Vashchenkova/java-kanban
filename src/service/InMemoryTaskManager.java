@@ -1,30 +1,38 @@
 package service;
 
 import model.*;
-import store.InMemoryTaskStore;
+import store.HistoryStore;
+import store.TaskStore;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 
 public class InMemoryTaskManager implements TaskManager {
-    InMemoryTaskStore inMemoryTaskStore = new InMemoryTaskStore();
+    private final TaskStore taskStore;
+    private final HistoryStore historyStore;
     int lastId = 0;
+
+    public InMemoryTaskManager(TaskStore taskStore, HistoryStore historyStore) {
+        this.taskStore = taskStore;
+        this.historyStore = historyStore;
+    }
 
     @Override
     public void addTask(Task task) {
         switch (task.getTaskType()) {
             case SUB_TASK:
                 SubTask st = (SubTask) task;
-                Task taskById = inMemoryTaskStore.getTaskById(st.getParentEpicId());
+                Task taskById = taskStore.getTaskById(st.getParentEpicId());
                 if ((taskById == null)||(taskById.getTaskType() != TaskType.EPIC)) {
                     System.out.println("Эпика с таким номером нет.");
                     return;
                 }
                 ((Epic)taskById).addSubTask(st);
-                inMemoryTaskStore.saveTask(taskById);
+                taskStore.saveTask(taskById);
             case EPIC:
             case TASK:
-                inMemoryTaskStore.saveTask(task);
+                taskStore.saveTask(task);
                 System.out.println("Задача " + task.getTitle() + " успешно добавлена. Её номер - "
                         + task.getIdentificationNumber());
         }
@@ -33,18 +41,19 @@ public class InMemoryTaskManager implements TaskManager {
 
     @Override
     public Task getTaskById(int taskId) {
-        Task task = inMemoryTaskStore.getTaskById(taskId);
+        Task task = taskStore.getTaskById(taskId);
+        historyStore.addTaskToHistory(task);
         return task;
     }
 
     @Override
     public void removeTask(int taskId) {
-        inMemoryTaskStore.removeTask(taskId);
+        taskStore.removeTask(taskId);
     }
 
     @Override
     public void setStatus(int taskId, TaskStatus status) {
-         Task task = inMemoryTaskStore.getTaskById(taskId);
+         Task task = getTaskById(taskId);
          if (task == null) {
              System.out.println("Задачи с таким идентификатором нет.");
              return;
@@ -53,11 +62,11 @@ public class InMemoryTaskManager implements TaskManager {
              System.out.println("Невозможно изменить статус эпика.");
          } else  if (task.getTaskType() == TaskType.TASK) {
              task.setStatus(status);
-             inMemoryTaskStore.saveTask(task);
+             taskStore.saveTask(task);
              System.out.println("Статус задачи " + taskId + " успешно изменён на " + status);
          } else if (task.getTaskType() == TaskType.SUB_TASK) {
              task.setStatus(status);
-             inMemoryTaskStore.saveTask(task);
+             taskStore.saveTask(task);
              System.out.println("Статус подзадачи " + taskId + " успешно изменён на " + status);
              SubTask st = (SubTask) task;
              changeEpicStatus(st.getParentEpicId());
@@ -99,7 +108,7 @@ public class InMemoryTaskManager implements TaskManager {
 
     @Override
     public void printTaskList(TaskType taskType) {
-        Collection<Task> taskList = inMemoryTaskStore.getAllTasksByType(taskType);
+        Collection<Task> taskList = taskStore.getAllTasksByType(taskType);
         if (taskList.isEmpty()) {
             System.out.println("Задачи не найдены.");
         } else {
@@ -118,8 +127,8 @@ public class InMemoryTaskManager implements TaskManager {
     @Override
     public int removeAllTasksByType(TaskType taskType) {
         int count = 0;
-        for (Task task : inMemoryTaskStore.getAllTasksByType(taskType)) {
-            inMemoryTaskStore.removeTask(task.getIdentificationNumber());
+        for (Task task : taskStore.getAllTasksByType(taskType)) {
+            taskStore.removeTask(task.getIdentificationNumber());
             count++;
         }
         return  count;
@@ -127,7 +136,7 @@ public class InMemoryTaskManager implements TaskManager {
 
     @Override
     public void updateTask(Task task) {
-        inMemoryTaskStore.saveTask(task);
+        taskStore.saveTask(task);
     }
 
     @Override
@@ -143,6 +152,18 @@ public class InMemoryTaskManager implements TaskManager {
         } else {
             for (SubTask subTask : subTasksList) {
                 System.out.println(subTask);
+            }
+        }
+    }
+
+    @Override
+    public void getHistory() {
+        List<Task> printHistoryStore = historyStore.getHistory();
+        if (printHistoryStore.isEmpty()) {
+            System.out.println("История пуста.");
+        } else {
+            for (Task task : printHistoryStore) {
+                System.out.println(task.toString());
             }
         }
     }
