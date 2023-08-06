@@ -1,4 +1,4 @@
-import service.TaskManager;
+import service.InMemoryTaskManager;
 import model.SubTask;
 import model.Task;
 import model.Epic;
@@ -9,7 +9,7 @@ import java.util.ArrayList;
 import java.util.Scanner;
 
 public class Menu {
-    TaskManager taskManager = new TaskManager();
+    InMemoryTaskManager taskManager = new InMemoryTaskManager();
 
     public void printMenu() {
         System.out.println("Что вы хотите сделать? Выбирете команду: ");
