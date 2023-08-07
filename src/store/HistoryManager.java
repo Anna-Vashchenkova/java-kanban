@@ -4,7 +4,7 @@ import model.Task;
 
 import java.util.List;
 
-public interface HistoryStore {
+public interface HistoryManager {
     void addTaskToHistory(Task task);
 
     List<Task> getHistory();

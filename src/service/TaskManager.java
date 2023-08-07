@@ -4,8 +4,6 @@ import model.Task;
 import model.TaskStatus;
 import model.TaskType;
 
-import java.util.List;
-
 public interface TaskManager {
     void addTask(Task task);
 

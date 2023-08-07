@@ -1,20 +1,20 @@
 package service;
 
-import store.HistoryStore;
-import store.InMemoryHistoryStore;
+import store.HistoryManager;
+import store.InMemoryHistoryManager;
 import store.InMemoryTaskStore;
 import store.TaskStore;
 
 public class Managers {
     public static TaskManager getDefault() {
-        return new InMemoryTaskManager(ge4tDefaultTaskStore(), ge4tDefaultHistoryStore() );
+        return new InMemoryTaskManager(getDefaultTaskStore(), getDefaultHistoryStore() );
     }
 
-    private static HistoryStore ge4tDefaultHistoryStore() {
-        return new InMemoryHistoryStore();
+    private static HistoryManager getDefaultHistoryStore() {
+        return new InMemoryHistoryManager();
     }
 
-    private static TaskStore ge4tDefaultTaskStore() {
+    private static TaskStore getDefaultTaskStore() {
         return new InMemoryTaskStore();
     }
 }
