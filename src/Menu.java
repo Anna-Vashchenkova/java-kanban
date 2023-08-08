@@ -54,7 +54,7 @@ public class Menu {
                     printSubTasks(scanner);
                     break;
                 case 8:
-                    taskManager.getHistory();
+                    taskManager.printHistory();
                     break;
                 case 0:
                     System.out.println("Выход");
@@ -92,8 +92,7 @@ public class Menu {
         System.out.println("Введите описание задачи.");
         String description = scanner.nextLine();
         int identificationNumber = taskManager.generateIdNumber();
-        Task task = new Task(title, description, identificationNumber);
-        return task;
+        return new Task(title, description, identificationNumber);
     }
 
     private Epic createEpic(Scanner scanner) {
@@ -102,8 +101,7 @@ public class Menu {
         System.out.println("Введите описание эпика.");
         String description = scanner.nextLine();
         int identificationNumber = taskManager.generateIdNumber();
-        Epic epic = new Epic(title, description, identificationNumber, new ArrayList<>());
-        return epic;
+        return new Epic(title, description, identificationNumber, new ArrayList<>());
     }
 
     private SubTask createSubTask(Scanner scanner) {
@@ -113,8 +111,7 @@ public class Menu {
         String description = scanner.nextLine();
         int epicId = readIntFromScanner(scanner, "Укажите номер эпика.");
         int identificationNumber = taskManager.generateIdNumber();
-        SubTask subTask = new SubTask(title, description, identificationNumber, epicId);
-        return subTask;
+        return new SubTask(title, description, identificationNumber, epicId);
     }
 
     private void changeStatus(Scanner scanner) {

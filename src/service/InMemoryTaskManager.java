@@ -1,7 +1,7 @@
 package service;
 
 import model.*;
-import store.HistoryManager;
+import store.InMemoryTaskStore;
 import store.TaskStore;
 
 import java.util.ArrayList;
@@ -9,14 +9,9 @@ import java.util.Collection;
 import java.util.List;
 
 public class InMemoryTaskManager implements TaskManager {
-    private final TaskStore taskStore;
-    private final HistoryManager historyStore;
+    private final TaskStore taskStore = new InMemoryTaskStore();
+    private final HistoryManager historyStore = Managers.getDefaultHistoryStore();
     private int lastId = 0;
-
-    public InMemoryTaskManager(TaskStore taskStore, HistoryManager historyStore) {
-        this.taskStore = taskStore;
-        this.historyStore = historyStore;
-    }
 
     @Override
     public void addTask(Task task) {
@@ -158,7 +153,7 @@ public class InMemoryTaskManager implements TaskManager {
     }
 
     @Override
-    public void getHistory() {
+    public void printHistory() {
         List<Task> printHistoryStore = historyStore.getHistory();
         if (printHistoryStore.isEmpty()) {
             System.out.println("История пуста.");

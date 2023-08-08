@@ -23,5 +23,5 @@ public interface TaskManager {
 
     void printSubTasks(int epicId);
 
-    void getHistory();
+    void printHistory();
 }

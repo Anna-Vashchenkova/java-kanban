@@ -1,4 +1,4 @@
-package store;
+package service;
 
 import model.Task;
 
@@ -7,7 +7,7 @@ import java.util.List;
 
 public class InMemoryHistoryManager implements HistoryManager {
     private final static int SIZE_OF_HISTORY_TASKS = 10;
-    public List<Task> historyTasks = new ArrayList<>();
+    private final List<Task> historyTasks = new ArrayList<>();
 
     @Override
     public void addTaskToHistory(Task task) {
@@ -22,8 +22,7 @@ public class InMemoryHistoryManager implements HistoryManager {
 
     @Override
     public List<Task> getHistory() {
-        List<Task> historyTasksCopy = List.copyOf(historyTasks);
-        return historyTasksCopy;
+        return List.copyOf(historyTasks);
     }
 
 }
