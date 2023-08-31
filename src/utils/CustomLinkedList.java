@@ -12,7 +12,10 @@ public class CustomLinkedList<E> {
     Node first = null;
     Node last = null;
 
-    void linkLast(Task task) {
+    public void linkLast(Task task) {
+        if (idToNode.containsKey(task.getIdentificationNumber())) {
+            removeById(task.getIdentificationNumber());
+        }
         Node l = last;
         Node newNode = new Node(l, task, null);
         last = newNode;

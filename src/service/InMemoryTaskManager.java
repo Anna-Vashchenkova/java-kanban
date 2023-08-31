@@ -44,6 +44,7 @@ public class InMemoryTaskManager implements TaskManager {
     @Override
     public void removeTask(int taskId) {
         taskStore.removeTask(taskId);
+        historyStore.remove(taskId);
     }
 
     @Override
