@@ -7,10 +7,10 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class CustomLinkedList<E> {
-    Map<Integer, Node> idToNode = new HashMap<>();
-    Node first = null;
-    Node last = null;
+public class CustomLinkedList {
+    private Map<Integer, Node> idToNode = new HashMap<>();
+    private Node first = null;
+    private Node last = null;
 
     public void linkLast(Task task) {
         if (idToNode.containsKey(task.getIdentificationNumber())) {
@@ -18,6 +18,7 @@ public class CustomLinkedList<E> {
         }
         Node l = last;
         Node newNode = new Node(l, task, null);
+        idToNode.put(task.getIdentificationNumber(), newNode);
         last = newNode;
         if (l == null)
             first = newNode;
@@ -27,11 +28,11 @@ public class CustomLinkedList<E> {
 
     public List<Task> getTasks() {
         List<Task> tasks = new ArrayList<>();
-        Node tempe = first;
-        while (tempe.next != null) {
-            tasks.add(tempe.getTask());
-            tempe = tempe.next;
-            }
+        Node tmp = first;
+        while (tmp != null) {
+            tasks.add(tmp.getTask());
+            tmp = tmp.next;
+        }
         return tasks;
     }
 
@@ -55,6 +56,7 @@ public class CustomLinkedList<E> {
                 first.prev = null;
             }
         }
+        idToNode.remove(id);
     }
 
     private static class Node {

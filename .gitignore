@@ -9,6 +9,8 @@
 
 # Mobile Tools for Java (J2ME)
 .mtj.tmp/
+test
+lib
 
 # Package Files #
 *.jar

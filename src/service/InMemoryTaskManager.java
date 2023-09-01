@@ -18,7 +18,7 @@ public class InMemoryTaskManager implements TaskManager {
         switch (task.getTaskType()) {
             case SUB_TASK:
                 SubTask st = (SubTask) task;
-                Task taskById = taskStore.getTaskById(st.getParentEpicId());
+                Task taskById = getTaskById(st.getParentEpicId());
                 if ((taskById == null)||(taskById.getTaskType() != TaskType.EPIC)) {
                     System.out.println("Эпика с таким номером нет.");
                     return;
