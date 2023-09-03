@@ -1,4 +1,4 @@
-package model;
+package ru.anna.tasktracker.model;
 
 public class SubTask extends Task {
     private int parentEpicId = 0;

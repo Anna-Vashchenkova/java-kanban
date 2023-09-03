@@ -1,8 +1,8 @@
-package service;
+package ru.anna.tasktracker.service;
 
-import model.Task;
-import model.TaskStatus;
-import model.TaskType;
+import ru.anna.tasktracker.model.Task;
+import ru.anna.tasktracker.model.TaskStatus;
+import ru.anna.tasktracker.model.TaskType;
 
 public interface TaskManager {
     void addTask(Task task);

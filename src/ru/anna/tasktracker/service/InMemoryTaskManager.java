@@ -1,10 +1,10 @@
-package service;
+package ru.anna.tasktracker.service;
 
-import model.*;
-import store.InMemoryTaskStore;
-import store.TaskStore;
+import ru.anna.tasktracker.model.*;
+import ru.anna.tasktracker.store.InMemoryTaskStore;
+import ru.anna.tasktracker.store.TaskStore;
+import ru.anna.tasktracker.utils.Managers;
 
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
@@ -13,17 +13,17 @@ public class InMemoryTaskManager implements TaskManager {
     private final HistoryManager historyStore = Managers.getDefaultHistoryStore();
     private int lastId = 0;
 
-    @Override
+    /*@Override
     public void addTask(Task task) {
         switch (task.getTaskType()) {
             case SUB_TASK:
-                SubTask st = (SubTask) task;
-                Task taskById = getTaskById(st.getParentEpicId());
+                SubTask subTask = (SubTask) task;
+                Task taskById = getTaskById(subTask.getParentEpicId());
                 if ((taskById == null)||(taskById.getTaskType() != TaskType.EPIC)) {
                     System.out.println("Эпика с таким номером нет.");
                     return;
                 }
-                ((Epic)taskById).addSubTask(st);
+                ((Epic)taskById).addSubTask(subTask);
                 taskStore.saveTask(taskById);
             case EPIC:
             case TASK:
@@ -31,8 +31,24 @@ public class InMemoryTaskManager implements TaskManager {
                 System.out.println("Задача " + task.getTitle() + " успешно добавлена. Её номер - "
                         + task.getIdentificationNumber());
         }
-    }
+    }*/
 
+    @Override
+    public void addTask(Task task) {
+        if (task.getTaskType() == TaskType.SUB_TASK) {
+            SubTask subTask = (SubTask) task;
+            Task taskById = getTaskById(subTask.getParentEpicId());
+            if ((taskById == null) || (taskById.getTaskType() != TaskType.EPIC)) {
+                System.out.println("Эпика с таким номером нет.");
+                return;
+            }
+            ((Epic) taskById).addSubTask(subTask);
+            taskStore.saveTask(taskById);
+        }
+            taskStore.saveTask(task);
+            System.out.println("Задача " + task.getTitle() + " успешно добавлена. Её номер - "
+                        + task.getIdentificationNumber());
+    }
 
     @Override
     public Task getTaskById(int taskId) {
@@ -64,8 +80,8 @@ public class InMemoryTaskManager implements TaskManager {
              task.setStatus(status);
              taskStore.saveTask(task);
              System.out.println("Статус подзадачи " + taskId + " успешно изменён на " + status);
-             SubTask st = (SubTask) task;
-             changeEpicStatus(st.getParentEpicId());
+             SubTask subTask = (SubTask) task;
+             changeEpicStatus(subTask.getParentEpicId());
          }
     }
 
@@ -77,7 +93,7 @@ public class InMemoryTaskManager implements TaskManager {
             System.out.println("Эпика с таким номером нет.");
             return;
         }
-        ArrayList<SubTask> subTasks = ((Epic)taskById).getSubTasks();
+        List<SubTask> subTasks = ((Epic)taskById).getSubTasks();
         if (subTasks.isEmpty()) {
             System.out.println("Задачи не найдены.");
         } else {
@@ -143,7 +159,7 @@ public class InMemoryTaskManager implements TaskManager {
             System.out.println("Эпика с таким номером нет.");
             return;
         }
-        ArrayList<SubTask> subTasks = ((Epic)taskById).getSubTasks();
+        List<SubTask> subTasks = ((Epic)taskById).getSubTasks();
         if (subTasks.isEmpty()) {
             System.out.println("Задачи не найдены.");
         } else {

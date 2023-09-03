@@ -1,7 +1,6 @@
-package service;
+package ru.anna.tasktracker.service;
 
-import model.Task;
-import utils.CustomLinkedList;
+import ru.anna.tasktracker.model.Task;
 
 import java.util.List;
 

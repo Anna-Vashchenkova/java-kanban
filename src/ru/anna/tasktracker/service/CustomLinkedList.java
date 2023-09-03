@@ -1,6 +1,6 @@
-package utils;
+package ru.anna.tasktracker.service;
 
-import model.Task;
+import ru.anna.tasktracker.model.Task;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -16,22 +16,23 @@ public class CustomLinkedList {
         if (idToNode.containsKey(task.getIdentificationNumber())) {
             removeById(task.getIdentificationNumber());
         }
-        Node l = last;
-        Node newNode = new Node(l, task, null);
+        Node lastNode = last;
+        Node newNode = new Node(lastNode, task, null);
         idToNode.put(task.getIdentificationNumber(), newNode);
         last = newNode;
-        if (l == null)
+        if (lastNode == null) {
             first = newNode;
-        else
-            l.next = newNode;
+        } else {
+            lastNode.next = newNode;
+        }
     }
 
     public List<Task> getTasks() {
         List<Task> tasks = new ArrayList<>();
-        Node tmp = first;
-        while (tmp != null) {
-            tasks.add(tmp.getTask());
-            tmp = tmp.next;
+        Node temp = first;
+        while (temp != null) {
+            tasks.add(temp.getTask());
+            temp = temp.next;
         }
         return tasks;
     }

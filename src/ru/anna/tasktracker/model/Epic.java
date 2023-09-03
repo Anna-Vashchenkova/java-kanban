@@ -1,9 +1,10 @@
-package model;
+package ru.anna.tasktracker.model;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class Epic extends Task {
-    private ArrayList<SubTask> subTasks;
+    private List<SubTask> subTasks;
 
     public Epic(String title, String description, int identificationNumber, ArrayList<SubTask> listOfSubtasks) {
         super(title, description, identificationNumber);
@@ -11,7 +12,7 @@ public class Epic extends Task {
         taskType = TaskType.EPIC;
     }
 
-    public ArrayList<SubTask> getSubTasks() {
+    public List<SubTask> getSubTasks() {
         return subTasks;
     }
 

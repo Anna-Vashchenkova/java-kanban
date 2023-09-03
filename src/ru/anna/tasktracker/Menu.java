@@ -1,17 +1,18 @@
-import model.SubTask;
-import model.Task;
-import model.Epic;
-import model.TaskType;
-import model.TaskStatus;
-import service.Managers;
-import service.TaskManager;
+package ru.anna.tasktracker;
+
+import ru.anna.tasktracker.model.SubTask;
+import ru.anna.tasktracker.model.Task;
+import ru.anna.tasktracker.model.Epic;
+import ru.anna.tasktracker.model.TaskType;
+import ru.anna.tasktracker.model.TaskStatus;
+import ru.anna.tasktracker.utils.Managers;
+import ru.anna.tasktracker.service.TaskManager;
 
 import java.util.ArrayList;
 import java.util.Scanner;
-import java.util.StringTokenizer;
 
 public class Menu {
-    TaskManager taskManager = Managers.getDefault();
+    private TaskManager taskManager = Managers.getDefault();
 
     public void printMenu() {
         System.out.println("Что вы хотите сделать? Выбирете команду: ");

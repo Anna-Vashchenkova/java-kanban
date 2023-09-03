@@ -1,7 +1,7 @@
-package store;
+package ru.anna.tasktracker.store;
 
-import model.Task;
-import model.TaskType;
+import ru.anna.tasktracker.model.Task;
+import ru.anna.tasktracker.model.TaskType;
 
 import java.util.ArrayList;
 import java.util.Collection;

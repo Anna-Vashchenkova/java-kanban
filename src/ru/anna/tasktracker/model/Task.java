@@ -1,4 +1,4 @@
-package model;
+package ru.anna.tasktracker.model;
 
 
 public class Task {
