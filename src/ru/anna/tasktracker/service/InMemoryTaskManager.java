@@ -144,7 +144,7 @@ public class InMemoryTaskManager implements TaskManager {
             taskStore.removeTask(task.getIdentificationNumber());
             count++;
         }
-        return  count;
+        return count;
     }
 
     @Override
