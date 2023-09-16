@@ -2,6 +2,7 @@ package ru.anna.tasktracker.model;
 
 
 public class Task {
+
     protected TaskType taskType ;
     protected String title;
     protected String description;

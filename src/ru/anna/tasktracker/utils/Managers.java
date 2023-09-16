@@ -1,16 +1,15 @@
 package ru.anna.tasktracker.utils;
 
-import ru.anna.tasktracker.service.HistoryManager;
-import ru.anna.tasktracker.service.InMemoryHistoryManager;
-import ru.anna.tasktracker.service.InMemoryTaskManager;
-import ru.anna.tasktracker.service.TaskManager;
+import ru.anna.tasktracker.service.*;
+
+import java.io.File;
 
 public class Managers {
     private Managers(){
 
     }
     public static TaskManager getDefault() {
-        return new InMemoryTaskManager();
+        return new FileBackedTasksManager(new File("kanban-backup.csv"));
     }
 
     public static HistoryManager getDefaultHistoryStore() {

@@ -9,8 +9,8 @@ import java.util.Collection;
 import java.util.List;
 
 public class InMemoryTaskManager implements TaskManager {
-    private final TaskStore taskStore = new InMemoryTaskStore();
-    private final HistoryManager historyStore = Managers.getDefaultHistoryStore();
+    protected final TaskStore taskStore = new InMemoryTaskStore();
+    protected final HistoryManager historyStore = Managers.getDefaultHistoryStore();
     private int lastId = 0;
 
     /*@Override

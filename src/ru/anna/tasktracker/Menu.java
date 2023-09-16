@@ -12,6 +12,7 @@ import java.util.ArrayList;
 import java.util.Scanner;
 
 public class Menu {
+
     private TaskManager taskManager = Managers.getDefault();
 
     public void printMenu() {
