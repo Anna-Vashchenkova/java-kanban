@@ -57,7 +57,7 @@ public class Menu {
                     printSubTasks(scanner);
                     break;
                 case 8:
-                    taskManager.printHistory();
+                    taskManager.getHistory();
                     break;
                 case 0:
                     System.out.println("Выход");
@@ -144,7 +144,7 @@ public class Menu {
     private void printTasks(Scanner scanner) {
         TaskType taskType = getTaskType(scanner);
         if (taskType == null) return;
-        taskManager.printTaskList(taskType);
+        taskManager.getTaskListByType(taskType);
     }
 
     private TaskType getTaskType(Scanner scanner) {
@@ -213,6 +213,6 @@ public class Menu {
 
     private void printSubTasks(Scanner scanner) {
         int epicId = readIntFromScanner(scanner, "Введите номер эпика:");
-        taskManager.printSubTasks(epicId);
+        taskManager.getEpicSubtasks(epicId);
     }
 }

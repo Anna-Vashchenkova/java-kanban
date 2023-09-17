@@ -12,27 +12,6 @@ public class InMemoryTaskManager implements TaskManager {
     protected final TaskStore taskStore = new InMemoryTaskStore();
     protected final HistoryManager historyStore = Managers.getDefaultHistoryStore();
     private int lastId = 0;
-
-    /*@Override
-    public void addTask(Task task) {
-        switch (task.getTaskType()) {
-            case SUB_TASK:
-                SubTask subTask = (SubTask) task;
-                Task taskById = getTaskById(subTask.getParentEpicId());
-                if ((taskById == null)||(taskById.getTaskType() != TaskType.EPIC)) {
-                    System.out.println("Эпика с таким номером нет.");
-                    return;
-                }
-                ((Epic)taskById).addSubTask(subTask);
-                taskStore.saveTask(taskById);
-            case EPIC:
-            case TASK:
-                taskStore.saveTask(task);
-                System.out.println("Задача " + task.getTitle() + " успешно добавлена. Её номер - "
-                        + task.getIdentificationNumber());
-        }
-    }*/
-
     @Override
     public void addTask(Task task) {
         if (task.getTaskType() == TaskType.SUB_TASK) {
@@ -119,7 +98,7 @@ public class InMemoryTaskManager implements TaskManager {
     }
 
     @Override
-    public void printTaskList(TaskType taskType) {
+    public Collection<Task> getTaskListByType(TaskType taskType) {
         Collection<Task> tasks = taskStore.getAllTasksByType(taskType);
         if (tasks.isEmpty()) {
             System.out.println("Задачи не найдены.");
@@ -129,6 +108,7 @@ public class InMemoryTaskManager implements TaskManager {
                 historyStore.addTaskToHistory(task1);
             }
         }
+        return tasks;
     }
 
     @Override
@@ -153,11 +133,11 @@ public class InMemoryTaskManager implements TaskManager {
     }
 
     @Override
-    public void printSubTasks(int epicId) {
+    public List<SubTask> getEpicSubtasks(int epicId) {
         Task taskById = getTaskById(epicId);
         if ((taskById == null) || (taskById.getTaskType() != TaskType.EPIC)) {
             System.out.println("Эпика с таким номером нет.");
-            return;
+            return null;
         }
         List<SubTask> subTasks = ((Epic)taskById).getSubTasks();
         if (subTasks.isEmpty()) {
@@ -167,10 +147,11 @@ public class InMemoryTaskManager implements TaskManager {
                 System.out.println(subTask);
             }
         }
+        return subTasks;
     }
 
     @Override
-    public void printHistory() {
+    public List<Task> getHistory() {
         List<Task> printHistoryStore = historyStore.getHistory();
         if (printHistoryStore.isEmpty()) {
             System.out.println("История пуста.");
@@ -179,5 +160,6 @@ public class InMemoryTaskManager implements TaskManager {
                 System.out.println(task.toString());
             }
         }
+        return printHistoryStore;
     }
 }

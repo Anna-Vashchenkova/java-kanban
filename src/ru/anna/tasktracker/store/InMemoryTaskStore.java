@@ -9,7 +9,7 @@ import java.util.HashMap;
 
 public class InMemoryTaskStore implements TaskStore {
 
-    HashMap<Integer, Task> tasks = new HashMap<>();
+    private HashMap<Integer, Task> tasks = new HashMap<>();
 
     @Override
     public Task getTaskById(int taskId) {
@@ -28,7 +28,7 @@ public class InMemoryTaskStore implements TaskStore {
 
     @Override
     public Collection<Task> getAllTasksByType(TaskType taskType) {
-        ArrayList<Task> result = new ArrayList<>();
+        Collection<Task> result = new ArrayList<>();
         for (Task value : tasks.values()) {
             if (taskType == value.getTaskType()) {
                 result.add(value);

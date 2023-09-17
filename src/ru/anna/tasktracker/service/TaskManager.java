@@ -1,8 +1,12 @@
 package ru.anna.tasktracker.service;
 
+import ru.anna.tasktracker.model.SubTask;
 import ru.anna.tasktracker.model.Task;
 import ru.anna.tasktracker.model.TaskStatus;
 import ru.anna.tasktracker.model.TaskType;
+
+import java.util.Collection;
+import java.util.List;
 
 public interface TaskManager {
     void addTask(Task task);
@@ -13,7 +17,7 @@ public interface TaskManager {
 
     void setStatus(int taskId, TaskStatus status);
 
-    void printTaskList(TaskType taskType);
+    Collection<Task> getTaskListByType(TaskType taskType);
 
     int generateIdNumber();
 
@@ -21,7 +25,7 @@ public interface TaskManager {
 
     void updateTask(Task task);
 
-    void printSubTasks(int epicId);
+    List<SubTask> getEpicSubtasks(int epicId);
 
-    void printHistory();
+    List<Task> getHistory();
 }

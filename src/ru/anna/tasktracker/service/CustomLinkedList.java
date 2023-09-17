@@ -61,9 +61,9 @@ public class CustomLinkedList {
     }
 
     private static class Node {
-        Task task;
-        Node prev;
-        Node next;
+        private Task task;
+        private Node prev;
+        private Node next;
 
         Node(Node prev, Task task, Node next) {
             this.prev = prev;

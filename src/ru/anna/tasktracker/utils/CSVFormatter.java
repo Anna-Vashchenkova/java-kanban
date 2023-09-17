@@ -7,11 +7,11 @@ import java.util.List;
 
 public class CSVFormatter {
 
-    String delimiter = ",";
+    public static String delimiter = ",";
 
-    public CSVFormatter() {}
+    private CSVFormatter() {}
 
-    public String formatTaskToString(Task task) {
+    public static String formatTaskToString(Task task) {
         if (task.getTaskType() == TaskType.SUB_TASK) {
             SubTask subTask = (SubTask) task;
             return subTask.getTaskType() + delimiter + subTask.getTitle() + delimiter + subTask.getDescription()
@@ -24,7 +24,7 @@ public class CSVFormatter {
     }
 
 
-    public Task parseTask(String str) {
+    public static Task parseTask(String str) {
         String[] strings = str.split(delimiter);
         if (TaskType.valueOf(strings[0]) == TaskType.SUB_TASK) {
             SubTask subTask = new SubTask(strings[1], strings[2], Integer.parseInt(strings[3]), Integer.parseInt(strings[5]));
@@ -40,7 +40,7 @@ public class CSVFormatter {
         return task;
     }
 
-    public String formatHistory(List<Integer> integers) {
+    public static String formatHistory(List<Integer> integers) {
         List<String> strings = new ArrayList<>();
         for (Integer element : integers) {
             strings.add("" + element);
@@ -48,7 +48,7 @@ public class CSVFormatter {
         return String.join(delimiter, strings);
     }
 
-    public List<Integer> parseHistory(String historyStr) {
+    public static List<Integer> parseHistory(String historyStr) {
         if (historyStr.isEmpty()) {
             return new ArrayList<>();
         }

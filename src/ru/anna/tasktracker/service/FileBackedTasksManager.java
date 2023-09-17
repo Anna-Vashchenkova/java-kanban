@@ -1,5 +1,7 @@
 package ru.anna.tasktracker.service;
 
+import ru.anna.tasktracker.exception.ManagerSaveException;
+import ru.anna.tasktracker.model.SubTask;
 import ru.anna.tasktracker.model.Task;
 import ru.anna.tasktracker.model.TaskStatus;
 import ru.anna.tasktracker.model.TaskType;
@@ -12,47 +14,44 @@ import java.util.List;
 
 public class FileBackedTasksManager extends InMemoryTaskManager {
 
-    CSVFormatter csvFormatter = new CSVFormatter();
     private final File backupFile;
 
     public FileBackedTasksManager(File file) {
         backupFile = file;
+        restore();
+    }
+
+    public void restore() {
         if (backupFile == null) {
-            throw new RuntimeException("Нельзя восстановить состояние. Переданный файл - null");
+            throw new ManagerSaveException("Нельзя восстановить состояние. Переданный файл - null");
         } else if (backupFile.isDirectory()) {
-            throw new RuntimeException("Нельзя восстановить состояние. Переданный файл - директория");
+            throw new ManagerSaveException("Нельзя восстановить состояние. Переданный файл - директория");
         }
         try {
             if (!backupFile.exists()) {
                 backupFile.createNewFile();
             }
-            restore(); //восстанавление
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
-    }
 
-    public void restore() {
-        try (FileReader fileReader = new FileReader(backupFile)) {
-            BufferedReader bufferedReader = new BufferedReader(fileReader);
-            bufferedReader.readLine();
-            while (bufferedReader.ready()) {
-                String taskString = bufferedReader.readLine();
+        } catch (IOException e) {
+            throw new ManagerSaveException(e);
+        }
+        try (BufferedReader reader = new BufferedReader(new FileReader(backupFile))) {
+            reader.readLine();
+            while (reader.ready()) {
+                String taskString = reader.readLine();
                 if (!taskString.isEmpty()) {
-                    Task parseTask = csvFormatter.parseTask(taskString);
+                    Task parseTask = CSVFormatter.parseTask(taskString);
                     taskStore.saveTask(parseTask);
                 } else {
-                    List<Integer> idTasks = csvFormatter.parseHistory(bufferedReader.readLine());
+                    List<Integer> idTasks = CSVFormatter.parseHistory(reader.readLine());
                     for (Integer idTask : idTasks) {
                         getTaskById(idTask);
                     }
                     return;
                 }
             }
-        } catch (FileNotFoundException e) {
-           e.printStackTrace();
         } catch (IOException e) {
-            e.printStackTrace();
+            throw new ManagerSaveException(e);
         }
     }
 
@@ -64,7 +63,7 @@ public class FileBackedTasksManager extends InMemoryTaskManager {
                 TaskType taskType = TaskType.values()[i];
                 Collection<Task> tasks = taskStore.getAllTasksByType(taskType);
                 for (Task task : tasks) {
-                    String text = csvFormatter.formatTaskToString(task);
+                    String text = CSVFormatter.formatTaskToString(task);
                     writer.println(text);
                 }
             }
@@ -73,13 +72,13 @@ public class FileBackedTasksManager extends InMemoryTaskManager {
             for (Task task : history) {
                 idTasks.add(task.getIdentificationNumber());
             }
-            String textId = csvFormatter.formatHistory(idTasks);
+            String textId = CSVFormatter.formatHistory(idTasks);
             writer.println();
             writer.println(textId);
         } catch (NullPointerException e) {
-
+            System.out.printf("Произошла ошибка" + e.getMessage());
         } catch (IOException e) {
-            throw new RuntimeException(e);
+            throw new ManagerSaveException(e);
         }
 
     }
@@ -111,9 +110,10 @@ public class FileBackedTasksManager extends InMemoryTaskManager {
     }
 
     @Override
-    public void printTaskList(TaskType taskType) {
-        super.printTaskList(taskType);
+    public Collection<Task> getTaskListByType(TaskType taskType) {
+        Collection<Task> tasks = super.getTaskListByType(taskType);
         save();
+        return tasks;
     }
 
     @Override
@@ -130,14 +130,16 @@ public class FileBackedTasksManager extends InMemoryTaskManager {
     }
 
     @Override
-    public void printSubTasks(int epicId) {
-        super.printSubTasks(epicId);
+    public List<SubTask> getEpicSubtasks(int epicId) {
+        List<SubTask> subTasks = super.getEpicSubtasks(epicId);
         save();
+        return subTasks;
     }
 
     @Override
-    public void printHistory() {
-        super.printHistory();
+    public List<Task> getHistory() {
+        List<Task> printHistoryStore = super.getHistory();
         save();
+        return  printHistoryStore;
     }
 }
