@@ -11,7 +11,7 @@ import java.util.List;
 public class InMemoryTaskManager implements TaskManager {
     protected final TaskStore taskStore = new InMemoryTaskStore();
     protected final HistoryManager historyStore = Managers.getDefaultHistoryStore();
-    private int lastId = 0;
+    protected int lastId = 0;
     @Override
     public void addTask(Task task) {
         if (task.getTaskType() == TaskType.SUB_TASK) {

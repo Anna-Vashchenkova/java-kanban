@@ -41,6 +41,9 @@ public class FileBackedTasksManager extends InMemoryTaskManager {
                 String taskString = reader.readLine();
                 if (!taskString.isEmpty()) {
                     Task parseTask = CSVFormatter.parseTask(taskString);
+                    if (parseTask.getIdentificationNumber() >= lastId) {
+                        lastId = parseTask.getIdentificationNumber();
+                    }
                     taskStore.saveTask(parseTask);
                 } else {
                     List<Integer> idTasks = CSVFormatter.parseHistory(reader.readLine());
