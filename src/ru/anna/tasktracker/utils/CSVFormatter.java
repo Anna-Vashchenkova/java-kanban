@@ -27,11 +27,11 @@ public class CSVFormatter {
     public static Task parseTask(String str) {
         String[] strings = str.split(delimiter);
         if (TaskType.valueOf(strings[0]) == TaskType.SUB_TASK) {
-            SubTask subTask = new SubTask(strings[1], strings[2], Integer.parseInt(strings[3]), Integer.parseInt(strings[5]));
+            SubTask subTask = new SubTask(strings[1], strings[2], Integer.parseInt(strings[3]), Integer.parseInt(strings[5]), null, 0);
             subTask.setStatus(TaskStatus.valueOf(strings[4]));
             return subTask;
         } else if (TaskType.valueOf(strings[0]) == TaskType.EPIC) {
-            Epic epic = new Epic(strings[1], strings[2], Integer.parseInt(strings[3]), new ArrayList<>());
+            Epic epic = new Epic(strings[1], strings[2], Integer.parseInt(strings[3]), new ArrayList<>(), null, 0);
             epic.setStatus(TaskStatus.valueOf(strings[4]));
             return epic;
         }

@@ -104,7 +104,7 @@ public class Menu {
         System.out.println("Введите описание эпика.");
         String description = scanner.nextLine();
         int identificationNumber = taskManager.generateIdNumber();
-        return new Epic(title, description, identificationNumber, new ArrayList<>());
+        return new Epic(title, description, identificationNumber, new ArrayList<>(), null, 0);
     }
 
     private SubTask createSubTask(Scanner scanner) {
@@ -114,7 +114,7 @@ public class Menu {
         String description = scanner.nextLine();
         int epicId = readIntFromScanner(scanner, "Укажите номер эпика.");
         int identificationNumber = taskManager.generateIdNumber();
-        return new SubTask(title, description, identificationNumber, epicId);
+        return new SubTask(title, description, identificationNumber, epicId, null, 0);
     }
 
     private void changeStatus(Scanner scanner) {

@@ -1,11 +1,13 @@
 package ru.anna.tasktracker.model;
 
+import java.time.LocalDateTime;
+
 public class SubTask extends Task {
 
     private int parentEpicId = 0;
 
-    public SubTask(String title, String description, int identificationNumber, int parentEpicId ) {
-        super(title, description, identificationNumber, null, 0);
+    public SubTask(String title, String description, int identificationNumber, int parentEpicId, LocalDateTime startTime, int duration) {
+        super(title, description, identificationNumber, startTime, duration);
         this.parentEpicId =parentEpicId;
         taskType = TaskType.SUB_TASK;
     }

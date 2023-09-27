@@ -19,6 +19,8 @@ public class Task {
         this.identificationNumber = identificationNumber;
         status = TaskStatus.NEW;
         taskType = TaskType.TASK;
+        this.startTime = startTime;
+        this.duration = duration;
     }
 
     public TaskType getTaskType() {
@@ -57,6 +59,9 @@ public class Task {
         this.duration = duration;
     }
 
+    public LocalDateTime getEndTime() {
+        return startTime.plusMinutes(duration);
+    }
     public int getIdentificationNumber() {
         return identificationNumber;
     }
@@ -103,4 +108,5 @@ public class Task {
         result = 31 * result + status.hashCode();
         return result;
     }
+
 }

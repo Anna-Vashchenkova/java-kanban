@@ -1,14 +1,16 @@
 package ru.anna.tasktracker.model;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 public class Epic extends Task {
 
     private List<SubTask> subTasks;
 
-    public Epic(String title, String description, int identificationNumber, ArrayList<SubTask> listOfSubtasks) {
-        super(title, description, identificationNumber, null, 0);
+    public Epic(String title, String description, int identificationNumber, ArrayList<SubTask> listOfSubtasks, LocalDateTime startTime, int duration) {
+        super(title, description, identificationNumber, startTime, duration);
         this.subTasks = listOfSubtasks;
         taskType = TaskType.EPIC;
     }
@@ -46,7 +48,39 @@ public class Epic extends Task {
         return result;
     }
 
+    @Override
+    public LocalDateTime getStartTime() {
+        if (!subTasks.isEmpty()) {
+            startTime = subTasks.get(0).getStartTime();
+        }
+        return startTime;
+    }
+
+    @Override
+    public LocalDateTime getEndTime() {
+        LocalDateTime  endTime = null;
+        List<LocalDateTime> timesOfSubTasks = new ArrayList<>();
+        if (!subTasks.isEmpty()) {
+            for (SubTask subTask : subTasks) {
+                timesOfSubTasks.add(subTask.getEndTime());
+            }
+            endTime = timesOfSubTasks.stream().max(LocalDateTime::compareTo).get();
+        }
+        return endTime;
+    }
+
+    @Override
+    public int getDuration() {
+        int epicDuration = 0;
+        for (SubTask subTask : subTasks) {
+            epicDuration += subTask.getDuration();
+        }
+        return epicDuration;
+    }
+
     public void addSubTask(SubTask subTask) {
         subTasks.add(subTask);
     }
+
+
 }
