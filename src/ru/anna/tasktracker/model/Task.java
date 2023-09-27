@@ -1,6 +1,8 @@
 package ru.anna.tasktracker.model;
 
 
+import java.time.LocalDateTime;
+
 public class Task {
 
     protected TaskType taskType ;
@@ -8,8 +10,10 @@ public class Task {
     protected String description;
     protected int identificationNumber;
     protected TaskStatus status;
+    protected LocalDateTime startTime;
+    protected int duration;
 
-    public Task(String title, String description, int identificationNumber) {
+    public Task(String title, String description, int identificationNumber, LocalDateTime startTime, int duration) {
         this.title = title;
         this.description = description;
         this.identificationNumber = identificationNumber;
@@ -35,6 +39,22 @@ public class Task {
 
     public void setDescription(String description) {
         this.description = description;
+    }
+
+    public LocalDateTime getStartTime() {
+        return startTime;
+    }
+
+    public void setStartTime(LocalDateTime startTime) {
+        this.startTime = startTime;
+    }
+
+    public int getDuration() {
+        return duration;
+    }
+
+    public void setDuration(int duration) {
+        this.duration = duration;
     }
 
     public int getIdentificationNumber() {

@@ -95,7 +95,7 @@ public class Menu {
         System.out.println("Введите описание задачи.");
         String description = scanner.nextLine();
         int identificationNumber = taskManager.generateIdNumber();
-        return new Task(title, description, identificationNumber);
+        return new Task(title, description, identificationNumber, null, 0);
     }
 
     private Epic createEpic(Scanner scanner) {

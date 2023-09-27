@@ -5,7 +5,7 @@ public class SubTask extends Task {
     private int parentEpicId = 0;
 
     public SubTask(String title, String description, int identificationNumber, int parentEpicId ) {
-        super(title, description, identificationNumber);
+        super(title, description, identificationNumber, null, 0);
         this.parentEpicId =parentEpicId;
         taskType = TaskType.SUB_TASK;
     }

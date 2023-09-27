@@ -35,7 +35,7 @@ public class CSVFormatter {
             epic.setStatus(TaskStatus.valueOf(strings[4]));
             return epic;
         }
-        Task task = new Task (strings[1], strings[2], Integer.parseInt(strings[3]));
+        Task task = new Task (strings[1], strings[2], Integer.parseInt(strings[3]), null, 0);
         task.setStatus(TaskStatus.valueOf(strings[4]));
         return task;
     }
