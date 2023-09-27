@@ -72,7 +72,7 @@ public class InMemoryTaskManager implements TaskManager {
             System.out.println("Эпика с таким номером нет.");
             return;
         }
-        List<SubTask> subTasks = ((Epic)taskById).getSubTasks();
+        Collection<SubTask> subTasks = ((Epic)taskById).getSubTasks();
         if (subTasks.isEmpty()) {
             System.out.println("Задачи не найдены.");
         } else {
@@ -133,13 +133,13 @@ public class InMemoryTaskManager implements TaskManager {
     }
 
     @Override
-    public List<SubTask> getEpicSubtasks(int epicId) {
+    public Collection<SubTask> getEpicSubtasks(int epicId) {
         Task taskById = getTaskById(epicId);
         if ((taskById == null) || (taskById.getTaskType() != TaskType.EPIC)) {
             System.out.println("Эпика с таким номером нет.");
             return null;
         }
-        List<SubTask> subTasks = ((Epic)taskById).getSubTasks();
+        Collection<SubTask> subTasks = ((Epic)taskById).getSubTasks();
         if (subTasks.isEmpty()) {
             System.out.println("Задачи не найдены.");
         } else {

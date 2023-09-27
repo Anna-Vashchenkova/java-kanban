@@ -73,22 +73,51 @@ class EpicTests {
 
     @Test
     @DisplayName("Дата начала эпика равна дате начала самой ранней подзадачи, если список подзадач состоит из нескольких подзадач")
-    public  void test6(){
+    public  void epicStartTimeEqualsSubtaskStartTime(){
         LocalDateTime startTime = LocalDateTime.of(2023, 9, 20, 10, 0);
-        SubTask subTask1 = new SubTask("фундамент", "вырыть залить", 2, 1, null, 0);
-        SubTask subTask2 = new SubTask("стены", "возвести", 3, 1, null, 0);
+        LocalDateTime subTasksStartTime1 = LocalDateTime.of(2023, 9, 20, 11, 30);
+        LocalDateTime subTasksStartTime2 = LocalDateTime.of(2023, 9, 20, 10, 15);
+        SubTask subTask1 = new SubTask("фундамент", "вырыть залить", 2, 1, subTasksStartTime1, 60);
+        SubTask subTask2 = new SubTask("стены", "возвести", 3, 1, subTasksStartTime2, 60);
         ArrayList<SubTask> subTasks = new ArrayList<>();
         subTasks.add(subTask1);
         subTasks.add(subTask2);
         Epic epic = new Epic("строю дом", "этапы строительства", 1, subTasks, startTime, 0);
+
+        assertEquals(subTasksStartTime2, epic.getStartTime());
     }
 
     @Test
     @DisplayName("Длиельность эпика равна сумме длительностей подзадач, если список подзадач состоит из нескольких подзадач")
-    public  void test7(){}
+    public  void durationEqualsSumSubTaskDuration(){
+        LocalDateTime startTime = LocalDateTime.of(2023, 9, 20, 10, 0);
+        LocalDateTime subTasksStartTime = LocalDateTime.of(2023, 9, 20, 11, 30);
+        LocalDateTime subTasksStartTime2 = LocalDateTime.of(2023, 9, 20, 10, 15);
+        ArrayList<SubTask> subTasks = new ArrayList<>();
+        SubTask subTask1 = new SubTask("фундамент", "вырыть залить", 2, 1, subTasksStartTime, 60);
+        SubTask subTask2 = new SubTask("стены", "возвести", 3, 1, subTasksStartTime2, 60);
+        subTasks.add(subTask1);
+        subTasks.add(subTask2);
+        Epic epic = new Epic("строю дом", "этапы строительства", 1, subTasks, startTime, 0);
+
+        assertEquals(120, epic.getDuration());
+    }
 
     @Test
     @DisplayName("Время заврешения эпика равно времени заверщшения самой поздней подзадачи, если список подзадач состоит из нескольких подзадач")
-    public  void test8(){}
+    public  void epicEndTimeEqualsLastSubtaskEndTime(){
+        LocalDateTime startTime = LocalDateTime.of(2023, 9, 20, 10, 0);
+        LocalDateTime subTasksStartTime1 = LocalDateTime.of(2023, 9, 20, 11, 30);
+        LocalDateTime subTasksStartTime2 = LocalDateTime.of(2023, 9, 20, 10, 15);
+        SubTask subTask1 = new SubTask("фундамент", "вырыть залить", 2, 1, subTasksStartTime1, 60);
+        SubTask subTask2 = new SubTask("стены", "возвести", 3, 1, subTasksStartTime2, 60);
+        ArrayList<SubTask> subTasks = new ArrayList<>();
+        subTasks.add(subTask1);
+        subTasks.add(subTask2);
+        Epic epic = new Epic("строю дом", "этапы строительства", 1, subTasks, startTime, 0);
+        LocalDateTime lastSubTaskEndTime = LocalDateTime.of(2023, 9, 20, 12, 30);
+
+        assertEquals(lastSubTaskEndTime, epic.getEndTime());
+    }
 
 }

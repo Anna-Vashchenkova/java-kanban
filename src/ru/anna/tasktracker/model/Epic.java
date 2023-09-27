@@ -1,21 +1,19 @@
 package ru.anna.tasktracker.model;
 
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 public class Epic extends Task {
 
-    private List<SubTask> subTasks;
+    private TreeSet<SubTask> subTasks = new TreeSet<>(Comparator.comparing(Task::getStartTime));
 
     public Epic(String title, String description, int identificationNumber, ArrayList<SubTask> listOfSubtasks, LocalDateTime startTime, int duration) {
         super(title, description, identificationNumber, startTime, duration);
-        this.subTasks = listOfSubtasks;
+        this.subTasks.addAll(listOfSubtasks);
         taskType = TaskType.EPIC;
     }
 
-    public List<SubTask> getSubTasks() {
+    public Collection<SubTask> getSubTasks() {
         return subTasks;
     }
 
@@ -51,7 +49,7 @@ public class Epic extends Task {
     @Override
     public LocalDateTime getStartTime() {
         if (!subTasks.isEmpty()) {
-            startTime = subTasks.get(0).getStartTime();
+            startTime = subTasks.first().startTime;
         }
         return startTime;
     }

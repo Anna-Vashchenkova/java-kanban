@@ -133,8 +133,8 @@ public class FileBackedTasksManager extends InMemoryTaskManager {
     }
 
     @Override
-    public List<SubTask> getEpicSubtasks(int epicId) {
-        List<SubTask> subTasks = super.getEpicSubtasks(epicId);
+    public Collection<SubTask> getEpicSubtasks(int epicId) {
+        Collection<SubTask> subTasks = super.getEpicSubtasks(epicId);
         save();
         return subTasks;
     }
