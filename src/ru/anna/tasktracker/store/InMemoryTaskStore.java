@@ -3,9 +3,7 @@ package ru.anna.tasktracker.store;
 import ru.anna.tasktracker.model.Task;
 import ru.anna.tasktracker.model.TaskType;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.HashMap;
+import java.util.*;
 
 public class InMemoryTaskStore implements TaskStore {
 
@@ -35,5 +33,12 @@ public class InMemoryTaskStore implements TaskStore {
             }
         }
          return result;
+    }
+
+    @Override
+    public TreeSet<Task> getOrderedByTimeTasks() {
+        TreeSet<Task> result = new TreeSet<>((Comparator.comparing(Task::getStartTime)));
+        result.addAll(tasks.values());
+        return result;
     }
 }

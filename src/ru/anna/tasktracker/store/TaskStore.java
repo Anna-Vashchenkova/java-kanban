@@ -4,6 +4,7 @@ import ru.anna.tasktracker.model.Task;
 import ru.anna.tasktracker.model.TaskType;
 
 import java.util.Collection;
+import java.util.TreeSet;
 
 public interface TaskStore {
     Task getTaskById(int taskId);
@@ -13,4 +14,6 @@ public interface TaskStore {
     void removeTask(int taskId);
 
     Collection<Task> getAllTasksByType(TaskType taskType);
+
+    TreeSet<Task> getOrderedByTimeTasks();
 }

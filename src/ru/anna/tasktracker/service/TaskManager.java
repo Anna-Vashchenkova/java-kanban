@@ -9,7 +9,7 @@ import java.util.Collection;
 import java.util.List;
 
 public interface TaskManager {
-    void addTask(Task task);
+    Task addTask(Task task);
 
     Task getTaskById(int taskId);
 

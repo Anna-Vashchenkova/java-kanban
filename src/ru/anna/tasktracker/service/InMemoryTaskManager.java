@@ -7,19 +7,23 @@ import ru.anna.tasktracker.utils.Managers;
 
 import java.util.Collection;
 import java.util.List;
+import java.util.TreeSet;
 
 public class InMemoryTaskManager implements TaskManager {
     protected final TaskStore taskStore = new InMemoryTaskStore();
     protected final HistoryManager historyStore = Managers.getDefaultHistoryStore();
     protected int lastId = 0;
     @Override
-    public void addTask(Task task) {
+    public Task addTask(Task task) {
+        if (!canAddTask(task)) {
+            return  null;
+        }
         if (task.getTaskType() == TaskType.SUB_TASK) {
             SubTask subTask = (SubTask) task;
             Task taskById = getTaskById(subTask.getParentEpicId());
             if ((taskById == null) || (taskById.getTaskType() != TaskType.EPIC)) {
                 System.out.println("Эпика с таким номером нет.");
-                return;
+                return null;
             }
             ((Epic) taskById).addSubTask(subTask);
             taskStore.saveTask(taskById);
@@ -27,6 +31,24 @@ public class InMemoryTaskManager implements TaskManager {
             taskStore.saveTask(task);
             System.out.println("Задача " + task.getTitle() + " успешно добавлена. Её номер - "
                         + task.getIdentificationNumber());
+            return task;
+    }
+
+    private boolean canAddTask(Task task) {
+        TreeSet<Task> orderedByTimeTasks = taskStore.getOrderedByTimeTasks();
+        if (!orderedByTimeTasks.isEmpty()) {
+            Task first = orderedByTimeTasks.first();
+            if ((task.getStartTime().isAfter(first.getStartTime()))&&(task.getStartTime().isBefore(first.getEndTime()))) {
+                System.out.println("Задача не добавлена.");
+                return false;
+            } else if ((task.getStartTime().isBefore(first.getStartTime()))&&(task.getEndTime().isAfter(first.getStartTime()))) {
+                System.out.println("Задача не добавлена.");
+                return false;
+            } else if ((task.getStartTime().isBefore(first.getStartTime()))&&(task.getEndTime().isBefore(first.getStartTime()))) {
+                return true;
+            }
+        }
+        return true;
     }
 
     @Override
