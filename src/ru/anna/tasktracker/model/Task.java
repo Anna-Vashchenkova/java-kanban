@@ -82,6 +82,8 @@ public class Task {
                 ", description='" + description + '\'' +
                 ", identificationNumber=" + identificationNumber +
                 ", status=" + status +
+                ", startTime=" + startTime +
+                ", duration=" + duration +
                 '}';
     }
 

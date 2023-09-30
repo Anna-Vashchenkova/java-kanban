@@ -6,6 +6,7 @@ import ru.anna.tasktracker.store.TaskStore;
 import ru.anna.tasktracker.utils.Managers;
 
 import java.util.Collection;
+import java.util.Iterator;
 import java.util.List;
 import java.util.TreeSet;
 
@@ -15,7 +16,9 @@ public class InMemoryTaskManager implements TaskManager {
     protected int lastId = 0;
     @Override
     public Task addTask(Task task) {
-        if (!canAddTask(task)) {
+        TreeSet<Task> orderedByTimeTasks = taskStore.getOrderedByTimeTasks();
+
+        if (!canAddTask(task, orderedByTimeTasks)) {
             return  null;
         }
         if (task.getTaskType() == TaskType.SUB_TASK) {
@@ -34,8 +37,8 @@ public class InMemoryTaskManager implements TaskManager {
             return task;
     }
 
-    private boolean canAddTask(Task task) {
-        TreeSet<Task> orderedByTimeTasks = taskStore.getOrderedByTimeTasks();
+/*
+    boolean canAddTask(Task task, TreeSet<Task> orderedByTimeTasks) {
         if (!orderedByTimeTasks.isEmpty()) {
             Task first = orderedByTimeTasks.first();
             if ((task.getStartTime().isAfter(first.getStartTime()))&&(task.getStartTime().isBefore(first.getEndTime()))) {
@@ -49,6 +52,26 @@ public class InMemoryTaskManager implements TaskManager {
             }
         }
         return true;
+    }
+*/
+
+    boolean canAddTask(Task task, TreeSet<Task> orderedByTimeTasks) {
+        if (task.getTaskType() == TaskType.EPIC) {
+            return true;
+        }
+        if (orderedByTimeTasks.isEmpty()) {
+            return true;
+        }
+        Iterator<Task> iterator = orderedByTimeTasks.iterator();
+        Task currentTask = iterator.next();
+        while ((iterator.hasNext()) && (currentTask.getEndTime().isBefore(task.getStartTime()))) {
+            currentTask = iterator.next();
+        }
+        if (task.getEndTime().isBefore(currentTask.getStartTime()))
+            return true;
+        if (task.getStartTime().isAfter(currentTask.getEndTime()))
+            return true;
+        return false;
     }
 
     @Override

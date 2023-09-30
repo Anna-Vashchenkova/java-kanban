@@ -21,7 +21,7 @@ class EpicTests {
     }
 
     @Test
-    @DisplayName("Длиельность эпика равна 0, при любом значении переданном в конструктор, если список подзадач пустой")
+    @DisplayName("Длительность эпика равна 0, при любом значении переданном в конструктор, если список подзадач пустой")
     public  void durationEquals0ByEmptyListSubTasks(){
         LocalDateTime startTime = LocalDateTime.of(2023, 9, 20, 10, 0);
         ArrayList<SubTask> subTasks = new ArrayList<>();

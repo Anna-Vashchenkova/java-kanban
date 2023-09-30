@@ -7,7 +7,7 @@ public class Epic extends Task {
 
     private TreeSet<SubTask> subTasks = new TreeSet<>(Comparator.comparing(Task::getStartTime));
 
-    public Epic(String title, String description, int identificationNumber, ArrayList<SubTask> listOfSubtasks, LocalDateTime startTime, int duration) {
+    public Epic(String title, String description, int identificationNumber, List<SubTask> listOfSubtasks, LocalDateTime startTime, int duration) {
         super(title, description, identificationNumber, startTime, duration);
         this.subTasks.addAll(listOfSubtasks);
         taskType = TaskType.EPIC;

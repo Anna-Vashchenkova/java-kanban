@@ -8,6 +8,8 @@ import java.util.*;
 public class InMemoryTaskStore implements TaskStore {
 
     private HashMap<Integer, Task> tasks = new HashMap<>();
+    private TreeSet<Task> orderedByTimeTasks = new TreeSet<>((Comparator.comparing(Task::getStartTime)));
+
 
     @Override
     public Task getTaskById(int taskId) {
@@ -17,10 +19,17 @@ public class InMemoryTaskStore implements TaskStore {
     @Override
     public void saveTask(Task task) {
         tasks.put(task.getIdentificationNumber(), task);
+        if (task.getTaskType() != TaskType.EPIC) {
+            orderedByTimeTasks.add(task);
+        }
     }
 
     @Override
     public void removeTask(int taskId) {
+        Task task = tasks.get(taskId);
+        if (task != null) {
+            orderedByTimeTasks.remove(task);
+        }
         tasks.remove(taskId);
     }
 
@@ -37,8 +46,6 @@ public class InMemoryTaskStore implements TaskStore {
 
     @Override
     public TreeSet<Task> getOrderedByTimeTasks() {
-        TreeSet<Task> result = new TreeSet<>((Comparator.comparing(Task::getStartTime)));
-        result.addAll(tasks.values());
-        return result;
+        return orderedByTimeTasks;
     }
 }
