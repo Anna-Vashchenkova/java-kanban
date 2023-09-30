@@ -25,6 +25,8 @@ public class Epic extends Task {
                 ", description='" + description + '\'' +
                 ", identificationNumber=" + identificationNumber +
                 ", status=" + status +
+                ", startTime=" + startTime +
+                ", duration=" + duration +
                 '}';
     }
 
@@ -36,13 +38,13 @@ public class Epic extends Task {
 
         Epic epic = (Epic) o;
 
-        return subTasks.equals(epic.subTasks);
+        return Objects.equals(subTasks, epic.subTasks);
     }
 
     @Override
     public int hashCode() {
         int result = super.hashCode();
-        result = 31 * result + subTasks.hashCode();
+        result = 31 * result + (subTasks != null ? subTasks.hashCode() : 0);
         return result;
     }
 

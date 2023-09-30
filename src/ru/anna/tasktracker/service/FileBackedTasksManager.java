@@ -61,7 +61,7 @@ public class FileBackedTasksManager extends InMemoryTaskManager {
     public void save() {
         try (PrintWriter writer = new PrintWriter(backupFile);
         ) {
-            writer.println("type,name,description,id,status,epic");
+            writer.println("type,name,description,id,status,startTime,duration,epic");
             for (int i = 0; i < TaskType.values().length; i++) {
                 TaskType taskType = TaskType.values()[i];
                 Collection<Task> tasks = taskStore.getAllTasksByType(taskType);

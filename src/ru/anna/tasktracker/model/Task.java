@@ -95,10 +95,12 @@ public class Task {
         Task task = (Task) o;
 
         if (identificationNumber != task.identificationNumber) return false;
+        if (duration != task.duration) return false;
         if (taskType != task.taskType) return false;
         if (!title.equals(task.title)) return false;
         if (!description.equals(task.description)) return false;
-        return status == task.status;
+        if (status != task.status) return false;
+        return startTime.equals(task.startTime);
     }
 
     @Override
@@ -108,7 +110,8 @@ public class Task {
         result = 31 * result + description.hashCode();
         result = 31 * result + identificationNumber;
         result = 31 * result + status.hashCode();
+        result = 31 * result + startTime.hashCode();
+        result = 31 * result + duration;
         return result;
     }
-
 }

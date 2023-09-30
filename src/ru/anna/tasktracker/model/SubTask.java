@@ -25,6 +25,8 @@ public class SubTask extends Task {
                 ", description='" + description + '\'' +
                 ", identificationNumber=" + identificationNumber +
                 ", status=" + status +
+                ", startTime=" + startTime +
+                ", duration=" + duration +
                 '}';
     }
 
@@ -33,8 +35,12 @@ public class SubTask extends Task {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         if (!super.equals(o)) return false;
+
         SubTask subTask = (SubTask) o;
-        return parentEpicId == subTask.parentEpicId;
+
+        if (parentEpicId != subTask.parentEpicId) return false;
+
+        return true;
     }
 
     @Override
