@@ -15,7 +15,7 @@ public interface TaskManager {
 
     void removeTask(int taskId);
 
-    void setStatus(int taskId, TaskStatus status);
+    Task setStatus(int taskId, TaskStatus status);
 
     Collection<Task> getTaskListByType(TaskType taskType);
 

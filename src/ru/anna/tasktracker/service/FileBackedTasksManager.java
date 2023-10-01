@@ -108,9 +108,11 @@ public class FileBackedTasksManager extends InMemoryTaskManager {
     }
 
     @Override
-    public void setStatus(int taskId, TaskStatus status) {
+    public Task setStatus(int taskId, TaskStatus status) {
         super.setStatus(taskId, status);
         save();
+        Task resultTask = super.getTaskById(taskId);
+        return resultTask;
     }
 
     @Override

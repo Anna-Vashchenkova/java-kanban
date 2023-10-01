@@ -17,7 +17,9 @@ public class InMemoryTaskManager implements TaskManager {
     @Override
     public Task addTask(Task task) {
         TreeSet<Task> orderedByTimeTasks = taskStore.getOrderedByTimeTasks();
-
+        if (task == null) {
+            return null;
+        }
         if (!canAddTask(task, orderedByTimeTasks)) {
             return  null;
         }
@@ -30,30 +32,16 @@ public class InMemoryTaskManager implements TaskManager {
             }
             ((Epic) taskById).addSubTask(subTask);
             taskStore.saveTask(taskById);
+            historyStore.addTaskToHistory(taskById); //новое"""""""""""
         }
             taskStore.saveTask(task);
+            historyStore.addTaskToHistory(task); //новое"""""""""""
+
             System.out.println("Задача " + task.getTitle() + " успешно добавлена. Её номер - "
                         + task.getIdentificationNumber());
             return task;
     }
 
-/*
-    boolean canAddTask(Task task, TreeSet<Task> orderedByTimeTasks) {
-        if (!orderedByTimeTasks.isEmpty()) {
-            Task first = orderedByTimeTasks.first();
-            if ((task.getStartTime().isAfter(first.getStartTime()))&&(task.getStartTime().isBefore(first.getEndTime()))) {
-                System.out.println("Задача не добавлена.");
-                return false;
-            } else if ((task.getStartTime().isBefore(first.getStartTime()))&&(task.getEndTime().isAfter(first.getStartTime()))) {
-                System.out.println("Задача не добавлена.");
-                return false;
-            } else if ((task.getStartTime().isBefore(first.getStartTime()))&&(task.getEndTime().isBefore(first.getStartTime()))) {
-                return true;
-            }
-        }
-        return true;
-    }
-*/
 
     boolean canAddTask(Task task, TreeSet<Task> orderedByTimeTasks) {
         if (task.getTaskType() == TaskType.EPIC) {
@@ -88,14 +76,15 @@ public class InMemoryTaskManager implements TaskManager {
     }
 
     @Override
-    public void setStatus(int taskId, TaskStatus status) {
+    public Task setStatus(int taskId, TaskStatus status) {
          Task task = getTaskById(taskId);
          if (task == null) {
              System.out.println("Задачи с таким идентификатором нет.");
-             return;
+             return null;
          }
          if (task.getTaskType() == TaskType.EPIC) {
              System.out.println("Невозможно изменить статус эпика.");
+             return task;
          } else  if (task.getTaskType() == TaskType.TASK) {
              task.setStatus(status);
              taskStore.saveTask(task);
@@ -107,6 +96,8 @@ public class InMemoryTaskManager implements TaskManager {
              SubTask subTask = (SubTask) task;
              changeEpicStatus(subTask.getParentEpicId());
          }
+        return task;
+
     }
 
     private void changeEpicStatus(int epicId) {

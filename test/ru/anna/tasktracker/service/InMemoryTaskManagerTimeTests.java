@@ -31,9 +31,9 @@ class InMemoryTaskManagerTimeTests {
     private static LocalDateTime TIME_19 = LocalDateTime.of(2023, 1, 1, 19, 0);
 
 
-    public static final int HOUR = 59;
-    public static final int HALF_HOUR = 30;
-    public static final int EPIC_ID = 99;
+    private static final int HOUR = 59;
+    private static final int HALF_HOUR = 30;
+    private static final int EPIC_ID = 99;
     private static Task TASK_11 = new Task("прогулка", "--", 4, TIME_11, HALF_HOUR);
     private static SubTask TASK_12 = new SubTask("сделать покупки", "--", 1, EPIC_ID, TIME_12, HOUR);
     private static SubTask TASK_12_30 = new SubTask("прогулка", "--", 6, EPIC_ID, TIME_12_30, HOUR);
