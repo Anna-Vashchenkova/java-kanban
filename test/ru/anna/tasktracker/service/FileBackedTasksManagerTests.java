@@ -129,7 +129,7 @@ class FileBackedTasksManagerTests {
         );
     }
 
-    @DisplayName("Поле lastId должно равняться максимальному идентификатору прочитанному из файла")
+    @DisplayName("Поле lastId должно ровняться максимальному идентификатору прочитанному из файла")
     @Test
     public void updateLastId() throws IOException {
         try(PrintWriter writer = new PrintWriter(TEST_FILE)){
