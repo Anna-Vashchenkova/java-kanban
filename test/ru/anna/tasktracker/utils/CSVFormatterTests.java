@@ -7,6 +7,7 @@ import ru.anna.tasktracker.model.Epic;
 import ru.anna.tasktracker.model.SubTask;
 import ru.anna.tasktracker.model.Task;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -15,9 +16,14 @@ import static ru.anna.tasktracker.model.TaskStatus.*;
 
 public class CSVFormatterTests {
 
-    private final Epic ETALON_EPIC = new Epic("Дом", "Уборка дома", 5, new ArrayList<>(), null, 0);
-    private final Task ETALON_TASK = new Task("Дом", "Уборка дома", 8, null, 0);
-    private final SubTask ETALON_SUBTASK = new SubTask("Дом", "Уборка дома", 23, 2, null, 0);
+    private static LocalDateTime TIME_12 = LocalDateTime.of(2023, 1, 1, 12, 0);
+    private static LocalDateTime TIME_13_30 = LocalDateTime.of(2023, 1, 1, 13, 30);
+    private static LocalDateTime TIME_15 = LocalDateTime.of(2023, 1, 1, 15, 0);
+    public static final int HOUR = 59;
+    public static final int HALF_HOUR = 30;
+    private final Epic ETALON_EPIC = new Epic("Дом", "Уборка дома", 5, new ArrayList<>(), TIME_12, 0);
+    private final Task ETALON_TASK = new Task("Дом", "Уборка дома", 8, TIME_13_30, HALF_HOUR);
+    private final SubTask ETALON_SUBTASK = new SubTask("Дом", "Уборка дома", 23, 2, TIME_15, HOUR);
 
     @BeforeEach
     public void initTasks() {
@@ -28,42 +34,42 @@ public class CSVFormatterTests {
     @Test
     @DisplayName("Необходимо корректно формировать строку csv если передана задача типа TASK")
     public void formatTask() {
-        String etalon = "TASK,Дом,Уборка дома,8,IN_PROGRESS";
+        String etalon = "TASK,Дом,Уборка дома,8,IN_PROGRESS,2023.01.01 13:30,30";
         assertEquals(etalon, CSVFormatter.formatTaskToString(ETALON_TASK));
     }
 
     @Test
     @DisplayName("Необходимо корректно формировать строку csv если передана задача типа EPIC")
     public void formatEpic() {
-        String etalon = "EPIC,Дом,Уборка дома,5,DONE";
+        String etalon = "EPIC,Дом,Уборка дома,5,DONE,2023.01.01 12:00,0";
         assertEquals(etalon, CSVFormatter.formatTaskToString(ETALON_EPIC));
     }
 
     @Test
     @DisplayName("Необходимо корректно формировать строку csv если передана задача типа SUB_TASK")
     public void formatSubTask() {
-        String etalon = "SUB_TASK,Дом,Уборка дома,23,NEW,2";
+        String etalon = "SUB_TASK,Дом,Уборка дома,23,NEW,2023.01.01 15:00,59,2";
         assertEquals(etalon, CSVFormatter.formatTaskToString(ETALON_SUBTASK));
     }
 
     @Test
     @DisplayName("Необходимо корректно разобрать строку в объект типа TASK")
     public void parseTask() {
-        String str = "TASK,Дом,Уборка дома,8,IN_PROGRESS";
+        String str = "TASK,Дом,Уборка дома,8,IN_PROGRESS,2023.01.01 13:30,30";
         assertEquals(ETALON_TASK, CSVFormatter.parseTask(str));
     }
 
     @Test
     @DisplayName("Необходимо корректно разобрать строку в объект типа SUB_TASK")
     public void parseSubTask() {
-        String str = "SUB_TASK,Дом,Уборка дома,23,NEW,2";
+        String str = "SUB_TASK,Дом,Уборка дома,23,NEW,2023.01.01 15:00,59,2";
         assertEquals(ETALON_SUBTASK, CSVFormatter.parseTask(str));
     }
 
     @Test
     @DisplayName("Необходимо корректно разобрать строку в объект типа EPIC")
     public void parseEpic() {
-        String str = "EPIC,Дом,Уборка дома,5,DONE";
+        String str = "EPIC,Дом,Уборка дома,5,DONE,2023.01.01 12:00,0";
         Task actual = CSVFormatter.parseTask(str);
         assertEquals(ETALON_EPIC, actual);
     }
