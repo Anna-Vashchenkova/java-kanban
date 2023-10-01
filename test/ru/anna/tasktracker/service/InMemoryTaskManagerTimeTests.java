@@ -15,7 +15,8 @@ import java.util.TreeSet;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-class InMemoryTaskManagerTest {
+@DisplayName("Тесты на проверку работы со временем задач")
+class InMemoryTaskManagerTimeTests {
 
     private InMemoryTaskManager taskManager;
     private static TreeSet<Task> ORDERED_BY_TIME_TASKS = new TreeSet<>((Comparator.comparing(Task::getStartTime)));
@@ -25,7 +26,6 @@ class InMemoryTaskManagerTest {
     private static LocalDateTime TIME_13 = LocalDateTime.of(2023, 1, 1, 13, 0);
     private static LocalDateTime TIME_13_30 = LocalDateTime.of(2023, 1, 1, 13, 30);
     private static LocalDateTime TIME_14 = LocalDateTime.of(2023, 1, 1, 14, 0);
-    private static LocalDateTime TIME_17_30 = LocalDateTime.of(2023, 1, 1, 17, 30);
     private static LocalDateTime TIME_18 = LocalDateTime.of(2023, 1, 1, 18, 0);
     private static LocalDateTime TIME_18_30 = LocalDateTime.of(2023, 1, 1, 18, 30);
     private static LocalDateTime TIME_19 = LocalDateTime.of(2023, 1, 1, 19, 0);
@@ -40,7 +40,6 @@ class InMemoryTaskManagerTest {
     private static SubTask TASK_13 = new SubTask("приготовить обед", "--", 2, EPIC_ID, TIME_13, HOUR);
     private static SubTask TASK_13_30 = new SubTask("прогулка", "--", 6, EPIC_ID, TIME_13_30, HOUR);
     private static SubTask TASK_14 = new SubTask("прогулка", "--", 5, EPIC_ID, TIME_14, HOUR);
-    private static Task TASK_17_30 = new Task("прогулка", "--", 6, TIME_17_30, HOUR);
     private static Task TASK_18 = new Task("выучить урок", "--", 3, TIME_18, HOUR);
     private static Task TASK_18_30 = new Task("прогулка", "--", 6, TIME_18_30, HOUR);
     private static Epic EPIC_FOR_DAY = new Epic("Задачи на день", "Задачи на день", EPIC_ID, List.of(TASK_12, TASK_13, TASK_14, TASK_13_30), TIME_12, HOUR);
