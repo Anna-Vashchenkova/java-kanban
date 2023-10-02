@@ -216,4 +216,13 @@ class InMemoryTaskManagerTests {
         assertNull(taskManager.getEpicSubtasks(2000));
     }
 
+    @Test
+    @DisplayName("Номер должен увеличиваться на один после вызова метода")
+    public void shouldIncrementByOne() {
+        int x = taskManager.generateIdNumber();
+        int y = taskManager.generateIdNumber();
+
+        assertEquals(x+1, y);
+    }
+
 }
