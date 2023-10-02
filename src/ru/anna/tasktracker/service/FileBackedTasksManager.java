@@ -11,6 +11,7 @@ import java.io.*;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
+import java.util.Set;
 
 public class FileBackedTasksManager extends InMemoryTaskManager {
 
@@ -136,8 +137,8 @@ public class FileBackedTasksManager extends InMemoryTaskManager {
     }
 
     @Override
-    public Collection<SubTask> getEpicSubtasks(int epicId) {
-        Collection<SubTask> subTasks = super.getEpicSubtasks(epicId);
+    public Set<SubTask> getEpicSubtasks(int epicId) {
+        Set<SubTask> subTasks = super.getEpicSubtasks(epicId);
         save();
         return subTasks;
     }

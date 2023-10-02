@@ -14,16 +14,16 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class InMemoryHistoryManagerTests {
     private InMemoryHistoryManager historyManager;
-    private static LocalDateTime TIME_12 = LocalDateTime.of(2023, 1, 1, 12, 0);
-    private static LocalDateTime TIME_12_30 = LocalDateTime.of(2023, 1, 1, 12, 30);
-    private static LocalDateTime TIME_13 = LocalDateTime.of(2023, 1, 1, 13, 0);
-    private static LocalDateTime TIME_17_30 = LocalDateTime.of(2023, 1, 1, 17, 30);
+    private static final LocalDateTime TIME_12 = LocalDateTime.of(2023, 1, 1, 12, 0);
+    private static final LocalDateTime TIME_12_30 = LocalDateTime.of(2023, 1, 1, 12, 30);
+    private static final LocalDateTime TIME_13 = LocalDateTime.of(2023, 1, 1, 13, 0);
+    private static final LocalDateTime TIME_17_30 = LocalDateTime.of(2023, 1, 1, 17, 30);
     public static final int HOUR = 59;
     public static final int HALF_HOUR = 30;
-    private static Task TASK_12 = new Task("сделать покупки", "--", 1, TIME_12, HOUR);
-    private static Task TASK_12_30 = new Task("прогулка", "--", 2, TIME_12_30, HALF_HOUR);
-    private static Task TASK_13 = new Task("приготовить обед", "--", 3, TIME_13, HOUR);
-    private static Task TASK_17_30 = new Task("прогулка", "--", 4, TIME_17_30, HOUR);
+    private static final Task TASK_12 = new Task("сделать покупки", "--", 1, TIME_12, HOUR);
+    private static final Task TASK_12_30 = new Task("прогулка", "--", 2, TIME_12_30, HALF_HOUR);
+    private static final Task TASK_13 = new Task("приготовить обед", "--", 3, TIME_13, HOUR);
+    private static final Task TASK_17_30 = new Task("прогулка", "--", 4, TIME_17_30, HOUR);
 
     @BeforeEach
     public void initContext() {

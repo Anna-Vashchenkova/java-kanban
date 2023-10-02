@@ -5,7 +5,6 @@ import ru.anna.tasktracker.model.*;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
-import java.util.Formatter;
 import java.util.List;
 
 public class CSVFormatter {

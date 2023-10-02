@@ -16,14 +16,14 @@ import static ru.anna.tasktracker.model.TaskStatus.*;
 
 public class CSVFormatterTests {
 
-    private static LocalDateTime TIME_12 = LocalDateTime.of(2023, 1, 1, 12, 0);
-    private static LocalDateTime TIME_13_30 = LocalDateTime.of(2023, 1, 1, 13, 30);
-    private static LocalDateTime TIME_15 = LocalDateTime.of(2023, 1, 1, 15, 0);
+    private static final LocalDateTime TIME_12 = LocalDateTime.of(2023, 1, 1, 12, 0);
+    private static final LocalDateTime TIME_13_30 = LocalDateTime.of(2023, 1, 1, 13, 30);
+    private static final LocalDateTime TIME_15 = LocalDateTime.of(2023, 1, 1, 15, 0);
     public static final int HOUR = 59;
     public static final int HALF_HOUR = 30;
-    private final Epic ETALON_EPIC = new Epic("Дом", "Уборка дома", 5, new ArrayList<>(), TIME_12, 0);
-    private final Task ETALON_TASK = new Task("Дом", "Уборка дома", 8, TIME_13_30, HALF_HOUR);
-    private final SubTask ETALON_SUBTASK = new SubTask("Дом", "Уборка дома", 23, 2, TIME_15, HOUR);
+    private static final Epic ETALON_EPIC = new Epic("Дом", "Уборка дома", 5, new ArrayList<>(), TIME_12, 0);
+    private static final Task ETALON_TASK = new Task("Дом", "Уборка дома", 8, TIME_13_30, HALF_HOUR);
+    private static final SubTask ETALON_SUBTASK = new SubTask("Дом", "Уборка дома", 23, 2, TIME_15, HOUR);
 
     @BeforeEach
     public void initTasks() {

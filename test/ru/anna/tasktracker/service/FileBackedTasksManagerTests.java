@@ -26,8 +26,8 @@ class FileBackedTasksManagerTests {
     private FileBackedTasksManager sut = new FileBackedTasksManager(TEST_FILE);
     private TaskStore ts;
     private HistoryManager historyStore;
-    private static LocalDateTime TIME_11 = LocalDateTime.of(2023, 1, 1, 11, 0);
-    private static LocalDateTime TIME_12 = LocalDateTime.of(2023, 1, 1, 12, 0);
+    private static final LocalDateTime TIME_11 = LocalDateTime.of(2023, 1, 1, 11, 0);
+    private static final LocalDateTime TIME_12 = LocalDateTime.of(2023, 1, 1, 12, 0);
 
     private final String ETALON_FILE_STRING = "type,name,description,id,status,startTime,duration,epic" + System.lineSeparator() +
             "TASK,Task1,Description task1,1,NEW,2023.01.01 11:00,45" + System.lineSeparator() +

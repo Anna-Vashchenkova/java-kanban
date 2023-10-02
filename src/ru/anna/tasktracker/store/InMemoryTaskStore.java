@@ -34,8 +34,8 @@ public class InMemoryTaskStore implements TaskStore {
     }
 
     @Override
-    public Collection<Task> getAllTasksByType(TaskType taskType) {
-        Collection<Task> result = new ArrayList<>();
+    public List<Task> getAllTasksByType(TaskType taskType) {
+        List<Task> result = new ArrayList<>();
         for (Task value : tasks.values()) {
             if (taskType == value.getTaskType()) {
                 result.add(value);
@@ -45,7 +45,7 @@ public class InMemoryTaskStore implements TaskStore {
     }
 
     @Override
-    public TreeSet<Task> getOrderedByTimeTasks() {
+    public Set<Task> getOrderedByTimeTasks() {
         return orderedByTimeTasks;
     }
 }

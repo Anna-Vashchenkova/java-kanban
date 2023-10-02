@@ -7,6 +7,7 @@ import ru.anna.tasktracker.model.TaskType;
 
 import java.util.Collection;
 import java.util.List;
+import java.util.Set;
 
 public interface TaskManager {
     Task addTask(Task task);
@@ -25,7 +26,7 @@ public interface TaskManager {
 
     void updateTask(Task task);
 
-    Collection<SubTask> getEpicSubtasks(int epicId);
+    Set<SubTask> getEpicSubtasks(int epicId);
 
     List<Task> getHistory();
 }

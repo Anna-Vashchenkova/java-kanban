@@ -4,7 +4,9 @@ import java.time.LocalDateTime;
 import java.util.*;
 
 public class Epic extends Task {
-
+    /*Возможно ли оставить TreeSet?
+    Я использую специфические методы first и  last, код более читабельный по сравнению со стримами.
+    */
     private TreeSet<SubTask> subTasks = new TreeSet<>(Comparator.comparing(Task::getStartTime));
 
     public Epic(String title, String description, int identificationNumber, List<SubTask> listOfSubtasks, LocalDateTime startTime, int duration) {
@@ -13,7 +15,7 @@ public class Epic extends Task {
         taskType = TaskType.EPIC;
     }
 
-    public Collection<SubTask> getSubTasks() {
+    public Set<SubTask> getSubTasks() {
         return subTasks;
     }
 
@@ -58,13 +60,9 @@ public class Epic extends Task {
 
     @Override
     public LocalDateTime getEndTime() {
-        LocalDateTime  endTime = null;
-        List<LocalDateTime> timesOfSubTasks = new ArrayList<>();
+        LocalDateTime endTime = startTime;
         if (!subTasks.isEmpty()) {
-            for (SubTask subTask : subTasks) {
-                timesOfSubTasks.add(subTask.getEndTime());
-            }
-            endTime = timesOfSubTasks.stream().max(LocalDateTime::compareTo).get();
+            endTime = subTasks.last().getEndTime();
         }
         return endTime;
     }

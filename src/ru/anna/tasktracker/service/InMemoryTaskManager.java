@@ -5,10 +5,7 @@ import ru.anna.tasktracker.store.InMemoryTaskStore;
 import ru.anna.tasktracker.store.TaskStore;
 import ru.anna.tasktracker.utils.Managers;
 
-import java.util.Collection;
-import java.util.Iterator;
-import java.util.List;
-import java.util.TreeSet;
+import java.util.*;
 
 public class InMemoryTaskManager implements TaskManager {
     protected final TaskStore taskStore = new InMemoryTaskStore();
@@ -16,7 +13,7 @@ public class InMemoryTaskManager implements TaskManager {
     protected int lastId = 0;
     @Override
     public Task addTask(Task task) {
-        TreeSet<Task> orderedByTimeTasks = taskStore.getOrderedByTimeTasks();
+        Set<Task> orderedByTimeTasks = taskStore.getOrderedByTimeTasks();
         if (task == null) {
             return null;
         }
@@ -43,7 +40,7 @@ public class InMemoryTaskManager implements TaskManager {
     }
 
 
-    boolean canAddTask(Task task, TreeSet<Task> orderedByTimeTasks) {
+    boolean canAddTask(Task task, Set<Task> orderedByTimeTasks) {
         if (task.getTaskType() == TaskType.EPIC) {
             return true;
         }
@@ -55,11 +52,10 @@ public class InMemoryTaskManager implements TaskManager {
         while ((iterator.hasNext()) && (currentTask.getEndTime().isBefore(task.getStartTime()))) {
             currentTask = iterator.next();
         }
-        if (task.getEndTime().isBefore(currentTask.getStartTime()))
+        if (task.getEndTime().isBefore(currentTask.getStartTime())) {
             return true;
-        if (task.getStartTime().isAfter(currentTask.getEndTime()))
-            return true;
-        return false;
+        }
+        return task.getStartTime().isAfter(currentTask.getEndTime());
     }
 
     @Override
@@ -121,14 +117,13 @@ public class InMemoryTaskManager implements TaskManager {
             }
             if (newCount == subTasks.size()) {
                 taskById.setStatus(TaskStatus.NEW);
-                System.out.println("Статус эпика " + epicId + " успешно изменён на " + taskById.getTaskType());
-            }
-            if (doneCount == subTasks.size()) {
+                System.out.println("Статус эпика " + epicId + " успешно изменён на " + taskById.getStatus());
+            } else if (doneCount == subTasks.size()) {
                 taskById.setStatus(TaskStatus.DONE);
-                System.out.println("Статус эпика " + epicId + " успешно изменён на " + taskById.getTaskType());
+                System.out.println("Статус эпика " + epicId + " успешно изменён на " + taskById.getStatus());
             } else {
                 taskById.setStatus(TaskStatus.IN_PROGRESS);
-                System.out.println("Статус эпика " + epicId + " успешно изменён на " + taskById.getTaskType());
+                System.out.println("Статус эпика " + epicId + " успешно изменён на " + taskById.getStatus());
             }
         }
     }
@@ -169,13 +164,13 @@ public class InMemoryTaskManager implements TaskManager {
     }
 
     @Override
-    public Collection<SubTask> getEpicSubtasks(int epicId) {
+    public Set<SubTask> getEpicSubtasks(int epicId) {
         Task taskById = getTaskById(epicId);
         if ((taskById == null) || (taskById.getTaskType() != TaskType.EPIC)) {
             System.out.println("Эпика с таким номером нет.");
             return null;
         }
-        Collection<SubTask> subTasks = ((Epic)taskById).getSubTasks();
+        Set<SubTask> subTasks = ((Epic)taskById).getSubTasks();
         if (subTasks.isEmpty()) {
             System.out.println("Задачи не найдены.");
         } else {

@@ -4,7 +4,7 @@ import java.time.LocalDateTime;
 
 public class SubTask extends Task {
 
-    private int parentEpicId = 0;
+    private int parentEpicId;
 
     public SubTask(String title, String description, int identificationNumber, int parentEpicId, LocalDateTime startTime, int duration) {
         super(title, description, identificationNumber, startTime, duration);
@@ -38,9 +38,7 @@ public class SubTask extends Task {
 
         SubTask subTask = (SubTask) o;
 
-        if (parentEpicId != subTask.parentEpicId) return false;
-
-        return true;
+        return  parentEpicId == subTask.parentEpicId;
     }
 
     @Override

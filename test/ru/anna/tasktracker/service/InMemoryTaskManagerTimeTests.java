@@ -34,17 +34,17 @@ class InMemoryTaskManagerTimeTests {
     private static final int HOUR = 59;
     private static final int HALF_HOUR = 30;
     private static final int EPIC_ID = 99;
-    private static Task TASK_11 = new Task("прогулка", "--", 4, TIME_11, HALF_HOUR);
-    private static SubTask TASK_12 = new SubTask("сделать покупки", "--", 1, EPIC_ID, TIME_12, HOUR);
-    private static SubTask TASK_12_30 = new SubTask("прогулка", "--", 6, EPIC_ID, TIME_12_30, HOUR);
-    private static SubTask TASK_13 = new SubTask("приготовить обед", "--", 2, EPIC_ID, TIME_13, HOUR);
-    private static SubTask TASK_13_30 = new SubTask("прогулка", "--", 6, EPIC_ID, TIME_13_30, HOUR);
-    private static SubTask TASK_14 = new SubTask("прогулка", "--", 5, EPIC_ID, TIME_14, HOUR);
-    private static Task TASK_18 = new Task("выучить урок", "--", 3, TIME_18, HOUR);
-    private static Task TASK_18_30 = new Task("прогулка", "--", 6, TIME_18_30, HOUR);
-    private static Epic EPIC_FOR_DAY = new Epic("Задачи на день", "Задачи на день", EPIC_ID, List.of(TASK_12, TASK_13, TASK_14, TASK_13_30), TIME_12, HOUR);
-    private static Task EPIC_18_30 = new Epic("Задачи на вечер", "--", 6, List.of(), TIME_18_30, HOUR);
-    private static Task TASK_19 = new Task("прогулка", "--", 7, TIME_19, HOUR);
+    private static final Task TASK_11 = new Task("прогулка", "--", 4, TIME_11, HALF_HOUR);
+    private static final SubTask TASK_12 = new SubTask("сделать покупки", "--", 1, EPIC_ID, TIME_12, HOUR);
+    private static final SubTask TASK_12_30 = new SubTask("прогулка", "--", 6, EPIC_ID, TIME_12_30, HOUR);
+    private static final SubTask TASK_13 = new SubTask("приготовить обед", "--", 2, EPIC_ID, TIME_13, HOUR);
+    private static final SubTask TASK_13_30 = new SubTask("прогулка", "--", 6, EPIC_ID, TIME_13_30, HOUR);
+    private static final SubTask TASK_14 = new SubTask("прогулка", "--", 5, EPIC_ID, TIME_14, HOUR);
+    private static final Task TASK_18 = new Task("выучить урок", "--", 3, TIME_18, HOUR);
+    private static final Task TASK_18_30 = new Task("прогулка", "--", 6, TIME_18_30, HOUR);
+    private static final Epic EPIC_FOR_DAY = new Epic("Задачи на день", "Задачи на день", EPIC_ID, List.of(TASK_12, TASK_13, TASK_14, TASK_13_30), TIME_12, HOUR);
+    private static final Task EPIC_18_30 = new Epic("Задачи на вечер", "--", 6, List.of(), TIME_18_30, HOUR);
+    private static final Task TASK_19 = new Task("прогулка", "--", 7, TIME_19, HOUR);
 
 
     @BeforeAll
