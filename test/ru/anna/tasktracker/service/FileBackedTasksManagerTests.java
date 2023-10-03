@@ -82,7 +82,7 @@ class FileBackedTasksManagerTests {
         assertEquals(ETALON_FILE_STRING, text);
     }
 
-    @DisplayName("Необходимо восстановить срисок задач при создании FileBackedTasksManager")
+    @DisplayName("Необходимо восстановить список задач при создании FileBackedTasksManager")
     @Test
     public void shouldRestoreTasks() throws IOException {
         try(PrintWriter writer = new PrintWriter(TEST_FILE)){
@@ -101,9 +101,9 @@ class FileBackedTasksManagerTests {
 
 
 
-        Collection<Task> tasks = ts.getAllTasksByType(TASK);
-        Collection<Task> epics = ts.getAllTasksByType(EPIC);
-        Collection<Task> subTasks = ts.getAllTasksByType(SUB_TASK);
+        List<Task> tasks = ts.getAllTasksByType(TASK);
+        List<Task> epics = ts.getAllTasksByType(EPIC);
+        List<Task> subTasks = ts.getAllTasksByType(SUB_TASK);
         assertAll(
                 () -> assertEquals(task, tasks.stream().findFirst().get()),
                 () -> assertEquals(epic, epics.stream().findFirst().get()),

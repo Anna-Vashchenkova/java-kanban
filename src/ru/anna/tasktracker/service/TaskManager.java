@@ -18,7 +18,7 @@ public interface TaskManager {
 
     Task setStatus(int taskId, TaskStatus status);
 
-    Collection<Task> getTaskListByType(TaskType taskType);
+    List<Task> getTaskListByType(TaskType taskType);
 
     int generateIdNumber();
 

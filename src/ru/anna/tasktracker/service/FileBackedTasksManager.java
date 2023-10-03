@@ -65,7 +65,7 @@ public class FileBackedTasksManager extends InMemoryTaskManager {
             writer.println("type,name,description,id,status,startTime,duration,epic");
             for (int i = 0; i < TaskType.values().length; i++) {
                 TaskType taskType = TaskType.values()[i];
-                Collection<Task> tasks = taskStore.getAllTasksByType(taskType);
+                List<Task> tasks = taskStore.getAllTasksByType(taskType);
                 for (Task task : tasks) {
                     String text = CSVFormatter.formatTaskToString(task);
                     writer.println(text);
@@ -117,8 +117,8 @@ public class FileBackedTasksManager extends InMemoryTaskManager {
     }
 
     @Override
-    public Collection<Task> getTaskListByType(TaskType taskType) {
-        Collection<Task> tasks = super.getTaskListByType(taskType);
+    public List<Task> getTaskListByType(TaskType taskType) {
+        List<Task> tasks = super.getTaskListByType(taskType);
         save();
         return tasks;
     }
