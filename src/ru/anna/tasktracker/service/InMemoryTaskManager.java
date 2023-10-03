@@ -93,7 +93,6 @@ public class InMemoryTaskManager implements TaskManager {
              changeEpicStatus(subTask.getParentEpicId());
          }
         return task;
-
     }
 
     private void changeEpicStatus(int epicId) {

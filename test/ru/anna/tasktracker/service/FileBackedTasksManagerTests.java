@@ -119,7 +119,6 @@ class FileBackedTasksManagerTests {
         } catch (IOException ignored) {
 
         }
-
         sut.restore();
 
         List<Task> history = historyStore.getHistory();

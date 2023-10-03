@@ -25,7 +25,6 @@ public interface TaskManager {
     int removeAllTasksByType(TaskType taskType);
 
     void updateTask(Task task);
-
     Set<SubTask> getEpicSubtasks(int epicId);
 
     List<Task> getHistory();

@@ -84,7 +84,6 @@ public class FileBackedTasksManager extends InMemoryTaskManager {
         } catch (IOException e) {
             throw new ManagerSaveException(e);
         }
-
     }
 
     @Override
