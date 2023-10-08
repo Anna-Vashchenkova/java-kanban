@@ -1,10 +1,7 @@
 package ru.anna.tasktracker.service;
 
 import ru.anna.tasktracker.exception.ManagerSaveException;
-import ru.anna.tasktracker.model.SubTask;
-import ru.anna.tasktracker.model.Task;
-import ru.anna.tasktracker.model.TaskStatus;
-import ru.anna.tasktracker.model.TaskType;
+import ru.anna.tasktracker.model.*;
 import ru.anna.tasktracker.utils.CSVFormatter;
 
 import java.io.*;
@@ -46,6 +43,11 @@ public class FileBackedTasksManager extends InMemoryTaskManager {
                         lastId = parseTask.getIdentificationNumber();
                     }
                     taskStore.saveTask(parseTask);
+                    if (parseTask.getTaskType() == TaskType.SUB_TASK) {
+                        Task epic = taskStore.getTaskById(((SubTask) parseTask).getParentEpicId());
+                        if (epic != null)
+                            ((Epic)epic).addSubTask((SubTask) parseTask);
+                    }
                 } else {
                     List<Integer> idTasks = CSVFormatter.parseHistory(reader.readLine());
                     for (Integer idTask : idTasks) {
@@ -88,9 +90,9 @@ public class FileBackedTasksManager extends InMemoryTaskManager {
 
     @Override
     public Task addTask(Task task) {
-        super.addTask(task);
+        Task result = super.addTask(task);
         save();
-        return task;
+        return result;
     }
 
     @Override
