@@ -1,17 +1,15 @@
 package ru.anna.tasktracker;
 
+import ru.anna.tasktracker.kvserver.KVServer;
 import ru.anna.tasktracker.webserver.HttpTaskServer;
+
+import java.io.IOException;
 
 public class Main {
 
-    public static void main(String[] args) {
-        System.out.println("Поехали!");
+    public static void main(String[] args) throws IOException {
 
         new HttpTaskServer().start();
-/*
-        Menu menu = new Menu();
-        menu.getTaskManager();
-*/
-
+        System.out.println("Поехали!");
     }
 }
