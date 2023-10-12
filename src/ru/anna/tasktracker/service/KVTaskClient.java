@@ -1,6 +1,5 @@
 package ru.anna.tasktracker.service;
 
-import com.google.gson.*;
 import ru.anna.tasktracker.exception.ManagerSaveException;
 
 import java.io.IOException;
@@ -8,9 +7,7 @@ import java.net.URI;
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
-import java.time.LocalDateTime;
-import java.util.LinkedList;
-import java.util.List;
+
 
 class KVTaskClient {
     private final static String GET_TOKEN_URI = "/register";

@@ -6,12 +6,13 @@ import java.io.File;
 import java.io.IOException;
 
 public class Managers {
+    public final static String KV_SERVER_ADDRESS = "http://localhost:8078";
     private Managers(){
 
     }
     public static TaskManager getDefault() {
         try {
-            return new HttpTaskManager();
+            return new HttpTaskManager(KV_SERVER_ADDRESS);
         } catch (IOException | InterruptedException e) {
             throw new RuntimeException(e);
         }

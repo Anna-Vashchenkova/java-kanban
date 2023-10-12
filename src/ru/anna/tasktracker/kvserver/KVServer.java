@@ -8,7 +8,6 @@ import java.util.Map;
 
 import com.sun.net.httpserver.HttpExchange;
 import com.sun.net.httpserver.HttpServer;
-import ru.anna.tasktracker.webserver.HttpTaskServer;
 
 /**
  * Постман: https://www.getpostman.com/collections/a83b61d9e1c81c10575c
@@ -132,5 +131,9 @@ public class KVServer {
 
     public static void main(String[] args) throws IOException {
         new KVServer().start();
+    }
+
+    public void stop() {
+        server.stop(00);
     }
 }
