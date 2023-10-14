@@ -69,69 +69,6 @@ public class HttpTaskManager extends FileBackedTasksManager {
         client.put(HISTORY_KEY, gson.toJson(historyStore.getHistory().stream().map(Task::getIdentificationNumber).toList()));
     }
 
-    @Override
-    public Task addTask(Task task) {
-        Task result = super.addTask(task);
-        save();
-        return result;
-    }
-
-    @Override
-    public Task getTaskById(int taskId) {
-        Task resultTask = super.getTaskById(taskId);
-        save();
-        return resultTask;
-    }
-
-    @Override
-    public void removeTask(int taskId) {
-        //Task task = getTaskById(taskId);
-        super.removeTask(taskId);
-        save();
-    }
-
-    @Override
-    public Task setStatus(int taskId, TaskStatus status) {
-        super.setStatus(taskId, status);
-        save();
-        Task resultTask = super.getTaskById(taskId);
-        return resultTask;
-    }
-
-    @Override
-    public List<Task> getTaskListByType(TaskType taskType) {
-        List<Task> tasks = super.getTaskListByType(taskType);
-        save();
-        return tasks;
-    }
-
-    @Override
-    public int removeAllTasksByType(TaskType taskType) {
-        int countTask = super.removeAllTasksByType(taskType);
-        save();
-        return countTask;
-    }
-
-    @Override
-    public void updateTask(Task task) {
-        super.updateTask(task);
-        save();
-    }
-
-    @Override
-    public Set<SubTask> getEpicSubtasks(int epicId) {
-        Set<SubTask> subTasks = super.getEpicSubtasks(epicId);
-        save();
-        return subTasks;
-    }
-
-    @Override
-    public List<Task> getHistory() {
-        List<Task> printHistoryStore = super.getHistory();
-        save();
-        return printHistoryStore;
-    }
-
     public List getListFromString(String str, Class aClass) {
         List result = new ArrayList<>();
         if (str.isEmpty()) {
