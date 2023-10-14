@@ -23,7 +23,7 @@ import static ru.anna.tasktracker.model.TaskType.*;
 class FileBackedTasksManagerTests {
 
     private final static File TEST_FILE = new File("test-file.csv");
-    private FileBackedTasksManager sut = new FileBackedTasksManager(TEST_FILE);
+    private FileBackedTasksManager sut = getSut();
     private TaskStore ts;
     private HistoryManager historyStore;
     private static final LocalDateTime TIME_11 = LocalDateTime.of(2023, 1, 1, 11, 0);
@@ -36,6 +36,10 @@ class FileBackedTasksManagerTests {
             System.lineSeparator() +
             "2,3" + System.lineSeparator()
             ;
+
+    protected FileBackedTasksManager getSut(){
+        return new FileBackedTasksManager(TEST_FILE);
+    }
 
     @BeforeEach
     public void clearTest() throws NoSuchFieldException, IllegalAccessException {
@@ -98,6 +102,7 @@ class FileBackedTasksManagerTests {
         epic.setStatus(TaskStatus.DONE);
         SubTask subTask = new SubTask("Sub Task2", "Description sub task3", 3, 2, TIME_12, 0);
         subTask.setStatus(TaskStatus.DONE);
+        epic.addSubTask(subTask);
 
 
 

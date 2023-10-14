@@ -18,7 +18,7 @@ public class HttpTaskManager extends FileBackedTasksManager {
     public static final String SUBTASKS_KEY = "subtasks";
     public static final String HISTORY_KEY = "history";
 
-    private final KVTaskClient client;
+    private KVTaskClient client; //убрала final
     private final Gson gson;
 
 
@@ -30,10 +30,14 @@ public class HttpTaskManager extends FileBackedTasksManager {
         gsonBuilder.registerTypeAdapter(TaskType.class, new TaskTypeAdapter());
         gsonBuilder.registerTypeAdapter(TaskStatus.class, new TaskStatusAdapter());
         gson = gsonBuilder.create();
+        restore();
     }
 
     @Override
     public void restore() {
+        if (client == null) {
+            return;
+        }
         List<Task> tasks = getListFromString(client.load(TASKS_KEY), Task.class);
         List<Epic> epics = getListFromString(client.load(EPICS_KEY), Epic.class);
         List<SubTask> subTasks = getListFromString(client.load(SUBTASKS_KEY), SubTask.class);

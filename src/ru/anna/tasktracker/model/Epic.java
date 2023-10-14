@@ -7,10 +7,16 @@ public class Epic extends Task {
     /*Возможно ли оставить TreeSet?
     Я использую специфические методы first и  last, код более читабельный по сравнению со стримами.
     */
-    private TreeSet<SubTask> subTasks = new TreeSet<>(Comparator.comparing(Task::getStartTime));
+    private transient TreeSet<SubTask> subTasks;
+
+    public Epic() {
+        super();
+        subTasks = new TreeSet<>(Comparator.comparing(Task::getStartTime));
+    }
 
     public Epic(String title, String description, int identificationNumber, List<SubTask> listOfSubtasks, LocalDateTime startTime, int duration) {
         super(title, description, identificationNumber, startTime, duration);
+        subTasks = new TreeSet<>(Comparator.comparing(Task::getStartTime));
         this.subTasks.addAll(listOfSubtasks);
         taskType = TaskType.EPIC;
     }
@@ -21,7 +27,7 @@ public class Epic extends Task {
 
     @Override
     public String toString() {
-        return "Task.Epic{" +
+        return "Epic{" +
                 "taskType=" + taskType +
                 ", title='" + title + '\'' +
                 ", description='" + description + '\'' +
@@ -29,6 +35,7 @@ public class Epic extends Task {
                 ", status=" + status +
                 ", startTime=" + startTime +
                 ", duration=" + duration +
+                ", subtasks=" + subTasks +
                 '}';
     }
 

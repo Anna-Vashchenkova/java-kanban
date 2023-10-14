@@ -5,11 +5,14 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import ru.anna.tasktracker.kvserver.KVServer;
+import ru.anna.tasktracker.model.Epic;
+import ru.anna.tasktracker.model.SubTask;
 import ru.anna.tasktracker.model.Task;
 import ru.anna.tasktracker.utils.Managers;
 
 import java.io.IOException;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -40,20 +43,19 @@ class HttpTaskManagerTests {
         Task task12 = new Task("сделать покупки", "--", 1, time12, 59);
         taskManager.addTask(task12);
 
-        //как проверить, что задача есть на сервере, достать ее оттуда? разбирать джейсон и взять id?
-        //типа
-        String tasksStr = client.load("tasks");
-        List tasks = taskManager.getListFromString(tasksStr, Task.class);
-        assertEquals(1, tasks.size());
+        LocalDateTime time14 = LocalDateTime.of(2023,1,1,14,0);
+        Epic epic14 = new Epic("сделать уборку", "--", 2, new ArrayList<>(),  time14, 59);
+        taskManager.addTask(epic14);
+
+        LocalDateTime time15 = LocalDateTime.of(2023,1,1,15,0);
+        SubTask subTask15 = new SubTask("уборка комнаты", "--", 3, 2,  time15, 59);
+        taskManager.addTask(subTask15);
+
+        taskManager = (HttpTaskManager) Managers.getDefault();
+
+        assertEquals(task12, taskManager.getTaskById(task12.getIdentificationNumber()));
+        assertEquals(epic14, taskManager.getTaskById(epic14.getIdentificationNumber()));
+        assertEquals(subTask15, taskManager.getTaskById(subTask15.getIdentificationNumber()));
     }
-
-/*
-    @Test
-    @DisplayName("При сохранении задачи поле lastId увеличивается на 1")
-
-    @Test
-    @DisplayName("При сохранении задачи, эпика, подзадачи они успешно добавлены на сервер")
-
-*/
 
 }
